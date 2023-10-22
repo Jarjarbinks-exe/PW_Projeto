@@ -14,15 +14,12 @@ return new class extends Migration
         Schema::create('documentos', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-            $table->foreignID('metadado_id')->constrained();
             $table->string('autor');
             $table->string('proprietario');
             $table->string('historico');
             $table->string('tipologia');
             $table->string('categorias');
-            $table->foreignId('permissoes_id')->constrained();
             $table->foreignId('utilizador_id')->constrained();
-            $table->foreignId('metadado_id')->constrained();
         });
     }
 

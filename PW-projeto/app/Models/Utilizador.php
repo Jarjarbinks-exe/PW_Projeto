@@ -50,4 +50,5 @@ class Utilizador extends Authenticatable
     public function permissoes(){
         return $this->hasMany(Permissoes::class);
     }
+
 }

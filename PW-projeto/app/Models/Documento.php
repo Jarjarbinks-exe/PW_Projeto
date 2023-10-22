@@ -16,4 +16,9 @@ class Documento extends Model
     public function permissoes(){
         return $this->hasMany(Permissoes::class);
     }
+
+    public function utilizador(){
+        return $this->hasOne(Utilizador::class);
+    }
+
 }
