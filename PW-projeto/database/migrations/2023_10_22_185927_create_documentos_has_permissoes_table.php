@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->timestamps();
             $table->foreignId('documento_id')->constrained();
-            $table->foreignId('permissoes_id')->constrained();
+            $table->foreignId('permissoe_id')->constrained();
         });
     }
 

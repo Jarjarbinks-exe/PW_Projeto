@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('utilizadores_has_permissoes', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-            $table->foreignId('utilizador_id')->constrained();
-            $table->foreignId('permissoes_id')->constrained();
+            $table->foreignId('utilizadore_id')->constrained();
+            $table->foreignId('permissoe_id')->constrained();
         });
     }
 

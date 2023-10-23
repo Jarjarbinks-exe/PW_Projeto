@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('departamentos_has_permissoes', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-            $table->foreignId('permissoes_id')->constrained();
+            $table->foreignId('permissoe_id')->constrained();
             $table->foreignId('departamento_id')->constrained();
         });
     }

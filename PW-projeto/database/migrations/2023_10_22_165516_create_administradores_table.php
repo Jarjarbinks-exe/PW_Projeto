@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('administradores', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-            $table->foreignID('utilizador_id')->constrained();
+            $table->foreignID('utilizadore_id')->constrained();
         });
     }
 

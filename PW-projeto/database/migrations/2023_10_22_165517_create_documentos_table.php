@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('historico');
             $table->string('tipologia');
             $table->string('categorias');
-            $table->foreignId('utilizador_id')->constrained();
+            $table->foreignId('utilizadore_id')->constrained();
         });
     }
 
