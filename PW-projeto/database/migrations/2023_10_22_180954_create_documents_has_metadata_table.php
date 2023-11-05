@@ -11,10 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('permissoes', function (Blueprint $table) {
-            $table->id();
-            $table->timestamps();
-            $table->string('valor');
+        Schema::create('documents_has_metadata', function (Blueprint $table) {
+            $table->foreignId('document_id')->constrained();
+            $table->foreignId('metadata_id')->constrained();
         });
     }
 
@@ -23,6 +22,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('permissoes');
+        Schema::dropIfExists('documents_has_metadata');
     }
 };

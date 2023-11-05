@@ -11,11 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('departamentos_has_permissoes', function (Blueprint $table) {
+        Schema::create('permissions', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-            $table->foreignId('permissoe_id')->constrained();
-            $table->foreignId('departamento_id')->constrained();
+            $table->string('value');
         });
     }
 
@@ -24,6 +23,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('departamentos_has_permissoes');
+        Schema::dropIfExists('permissions');
     }
 };

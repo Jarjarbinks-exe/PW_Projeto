@@ -11,10 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('departamentos', function (Blueprint $table) {
-            $table->id();
-            $table->timestamps();
-            $table->string('nome');
+        Schema::create('departments_has_permissions', function (Blueprint $table) {
+            $table->foreignId('permission_id')->constrained();
+            $table->foreignId('department_id')->constrained();
         });
     }
 
@@ -23,6 +22,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('departamentos');
+        Schema::dropIfExists('departments_has_permissions');
     }
 };

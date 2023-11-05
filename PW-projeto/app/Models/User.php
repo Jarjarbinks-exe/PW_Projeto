@@ -8,7 +8,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
-class Utilizador extends Authenticatable
+class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
 
@@ -44,11 +44,11 @@ class Utilizador extends Authenticatable
     ];
 
     public function documentos(){
-        return $this->hasMany(Documento::class);
+        return $this->hasMany(Document::class);
     }
 
     public function permissoes(){
-        return $this->hasMany(Permissoes::class);
+        return $this->hasMany(Permissions::class);
     }
 
 }

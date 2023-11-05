@@ -11,11 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('documentos_has_metadados', function (Blueprint $table) {
+        Schema::create('metadata', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-            $table->foreignId('documento_id')->constrained();
-            $table->foreignId('metadado_id')->constrained();
+            $table->string('value');
         });
     }
 
@@ -24,6 +23,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('documentos_has_metadados');
+        Schema::dropIfExists('metadata');
     }
 };
