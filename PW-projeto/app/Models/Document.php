@@ -9,15 +9,15 @@ class Document extends Model
 {
     use HasFactory;
 
-    public function metadados(){
+    public function metadata(){
         return $this->hasMany(Metadata::class);
     }
 
-    public function permissoes(){
+    public function permissions(){
         return $this->hasMany(Permissions::class);
     }
 
-    public function utilizador(){
+    public function user(){
         return $this->hasOne(User::class);
     }
 

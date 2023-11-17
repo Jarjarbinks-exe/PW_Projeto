@@ -9,6 +9,17 @@ use Illuminate\Support\Facades\Auth;
 
 class DocumentController extends Controller
 {
+    public function index()
+    {
+        $documents = Document::orderBy('id')->paginate(25);
+        return view('documents.index', compact('documents'));
+    }
+
+    public function create()
+    {
+        return view('documents.create');
+    }
+
     public function store(Request $request)
     {
         // Criação de um novo documento
@@ -24,6 +35,14 @@ class DocumentController extends Controller
 
     }
 
+    /**
+     * Display the specified resource.
+     */
+    public function show(Document $document)
+    {
+        return view('documents.show', compact('document'));
+    }
+
     public function update(Request $request, Document $document)
     {
         // Atualização do documento
@@ -36,10 +55,22 @@ class DocumentController extends Controller
             'user_name' => Auth::name(),
             'created_at' => now(),
         ]);
-
+        return redirect()
+            ->route('documents.show', ['document' => $document]);
     }
 
-    public function delete(Document $document)
+    #TODO Editar o ficheiro em si FileSystem
+    public function edit(Document $document)
+    {
+        return view(
+            'documents.edit',
+            [
+                'document' => $document
+            ]
+        );
+    }
+
+    public function destroy(Document $document)
     {
         // Guarda a eliminação do documento no histórico de revisões
         History::create([
@@ -50,9 +81,9 @@ class DocumentController extends Controller
         ]);
 
         // Apaga mesmo o docuemnto
-        $document->delete();
-
-
+        Document::destroy($document->id);
+        return redirect()
+            ->route('documents');
     }
 
     public function showHistory(Document $document)

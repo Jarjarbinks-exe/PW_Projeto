@@ -2,21 +2,26 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\UpdateUserRequest;
 use Illuminate\Http\Request;
 use App\Models\User;
 
 class UserController extends Controller
 {
     // Operações do CRUD
+    public function __construct()
+    {
+        $this->authorizeResource(User::class, ['user', 'administrator']);
+    }
+
     public function index()
     {
-        $users = User::all();
+        $users = User::orderBy('name')->paginate(25);
         return view('users.index', compact('users'));
     }
 
-    public function show($id)
+    public function show(User $user)
     {
-        $user = User::findOrFail($id);
         return view('users.show', compact('user'));
     }
 
@@ -25,46 +30,31 @@ class UserController extends Controller
         return view('users.create');
     }
 
-    public function store(Request $request)
+    public function store(UpdateUserRequest $request)
     {
-        $validatedData = $request->validate([
-            'name' => 'required',
-            'email' => 'required|email|unique:users',
-            'password' => 'required|min:6',
-        ]);
+        $user = User::create($request);
 
-        $validatedData['password'] = bcrypt($request->password);
-
-        User::create($validatedData);
-
-        return redirect('/users')->with('success', 'User created!');
+        return redirect()
+            ->route('users', ['user' => $user]);
     }
 
-    public function edit($id)
+    public function edit(User $user)
     {
-        $user = User::findOrFail($id);
         return view('users.edit', compact('user'));
     }
 
-    public function update(Request $request, $id)
+    public function update(UpdateUserRequest $request, User $user)
     {
-        $validatedData = $request->validate([
-            'name' => 'required',
-            'email' => 'required|email',
-        ]);
-
-        User::whereId($id)->update($validatedData);
-
-        return redirect('/users')->with('success', 'User updated!');
+        $user->update($request->toDTO()->toArray());
+        return redirect()
+            ->route('users.show', ['user' => $user]);
     }
 
-    public function destroy($id)
+    public function destroy(User $user)
     {
-        $user = User::findOrFail($id);
-        $user->delete();
-
-        return redirect('/users')->with('success', 'User deleted!');
+        User::destroy($user->id);
+        return redirect()
+            ->route('users');
     }
-
 }
 

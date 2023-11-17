@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\DocumentController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -30,10 +31,10 @@ Route::middleware('auth')->group(function () {
 
 // Rotas para o histórico de revisões
 
-    Route::post('/documents', [DocumentController::class, 'store'])->name('documents.store');
-    Route::put('/documents/{document}', [DocumentController::class, 'update'])->name('documents.update');
-    Route::delete('/documents/{document}', [DocumentController::class, 'delete'])->name('documents.delete');
-    Route::get('/documents/{document}/history', [DocumentController::class, 'showHistory'])->name('documents.history');
+Route::post('/documents', [DocumentController::class, 'store'])->name('documents.store');
+Route::put('/documents/{document}', [DocumentController::class, 'update'])->name('documents.update');
+Route::delete('/documents/{document}', [DocumentController::class, 'delete'])->name('documents.delete');
+Route::get('/documents/{document}/history', [DocumentController::class, 'showHistory'])->name('documents.history');
 
 });
 

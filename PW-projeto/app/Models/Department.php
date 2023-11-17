@@ -9,11 +9,11 @@ class Department extends Model
 {
     use HasFactory;
 
-    public function utilizadores(){
+    public function users(){
         return $this->hasMany(User::class);
     }
 
-    public function permissoes(){
+    public function permissions(){
         return $this->hasMany(Permissions::class);
     }
 }
