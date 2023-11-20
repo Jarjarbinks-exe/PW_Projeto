@@ -12,8 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('users_has_documents', function (Blueprint $table) {
-            $table->foreignId('user_id')->constrained();
-            $table->foreignId('document_id')->constrained();
+            $table->foreignId('users_id')->constrained();
+            $table->foreignId('documents_id')->constrained();
         });
     }
 

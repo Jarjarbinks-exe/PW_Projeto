@@ -9,16 +9,23 @@ class Document extends Model
 {
     use HasFactory;
 
-    public function metadados(){
-        return $this->hasMany(Metadata::class);
+    protected $fillable = [
+        'created_at',
+        'updated_at',
+        'user_id',
+        'file_path'
+    ];
+
+    public function metadata(){
+        return $this->belongsToMany(Metadata::class, 'documents_has_metadata', 'documents_id', 'metadata_id');
     }
 
-    public function permissoes(){
-        return $this->hasMany(Permissions::class);
+    public function permissions(){
+        return $this->belongsToMany(Permissions::class);
     }
 
-    public function utilizador(){
-        return $this->hasOne(User::class);
+    public function users(){
+        return $this->belongsToMany(User::class, 'users_has_documents', 'documents_id', 'users_id');
     }
 
     public function history(){

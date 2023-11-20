@@ -1,17 +1,37 @@
-<?php
+@extends('layouts.autenticado')
 
-@extends('layouts.app')
+@section('main-content')
 
-@section('content')
-    <h1>Edit user</h1>
-    <form action="{{ url('/users/'.$user->id) }}" method="post">
+    <form action="{{ route('users.update', ['user' => $user]) }}" method="post">
+        @method('PUT')
         @csrf
-        @method('put')
-        <label for="name">name:</label>
-        <input type="text" name="name" value="{{ $user->name }}" required><br>
-        <label for="email">email:</label>
-        <input type="email" name="email" value="{{ $user->email }}" required><br>
-        <button type="submit">Update user</button>
-    </form>
-@endsection
+        Nome: <input type="text" name="username" id="" class="form-control" value="{{ old('username', $user->username) }}"><br>
+        @error('username') <span class="text-danger">{{ $message }}</span><br>@enderror
+        Email: <input type="email" name="email" id="" class="form-control" value="{{ old('email', $user->email) }}"><br>
+        @error('email') <span class="text-danger">{{ $message }}</span><br>@enderror
+        <button type="submit" class="btn btn-success btn-lg">Guardar Modificações</button>
 
+    </form>
+    <p>Existing Permissions:</p>
+    @foreach($user->permissions as $permissions)
+        <li> Permission: {{$permissions->value}}
+            <form action="{{ route('users.destroyPermission', ['user' => $user, $permissions->id]) }}" method="post">
+                @csrf
+                @method('DELETE')
+                <button type="submit">delete</button>
+            </form>
+        </li>
+    @endforeach
+    <p>Add Permissions:</p>
+    @foreach(\App\Services\PermissionService::getUnownedPermissions($user) as $permissions)
+        <li> Permission: {{$permissions->value}}
+            <form action="{{ route('users.createPermission', ['user' => $user, $permissions->id]) }}" method="post">
+                @csrf
+                @method('GET')
+                <button type="submit">Add</button>
+            </form>
+        </li>
+    @endforeach
+
+
+@endsection

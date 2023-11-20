@@ -1,0 +1,51 @@
+/*!
+ * Bootstrap v5.0.0-beta1 (https://getbootstrap.com/)
+ * Copyright 2011-2020 The Bootstrap Authors
+ * Copyright 2011-2020 Twitter, Inc.
+ * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
+ */
+
+// scss-docs-start import-stack
+// Configuration
+@import "resources/scss/bootstrap/_functions.scss";
+@import "resources/scss/bootstrap/_variables.scss";
+@import "resources/scss/bootstrap/_mixins.scss";
+@import "resources/scss/bootstrap/_utilities.scss";
+
+// Layout & components
+@import "resources/scss/bootstrap/_root.scss";
+@import "resources/scss/bootstrap/_reboot.scss";
+@import "resources/scss/bootstrap/_type.scss";
+@import "resources/scss/bootstrap/_images.scss";
+@import "resources/scss/bootstrap/_containers.scss";
+@import "resources/scss/bootstrap/_grid.scss";
+@import "resources/scss/bootstrap/_tables.scss";
+@import "resources/scss/bootstrap/_forms.scss";
+@import "resources/scss/bootstrap/_buttons.scss";
+@import "resources/scss/bootstrap/_transitions.scss";
+@import "resources/scss/bootstrap/_dropdown.scss";
+@import "resources/scss/bootstrap/_button-group.scss";
+@import "resources/scss/bootstrap/_nav.scss";
+@import "resources/scss/bootstrap/_navbar.scss";
+@import "resources/scss/bootstrap/_card.scss";
+@import "resources/scss/bootstrap/_accordion.scss";
+@import "resources/scss/bootstrap/_breadcrumb.scss";
+@import "resources/scss/bootstrap/_pagination.scss";
+@import "resources/scss/bootstrap/_badge.scss";
+@import "resources/scss/bootstrap/_alert.scss";
+@import "resources/scss/bootstrap/_progress.scss";
+@import "resources/scss/bootstrap/_list-group.scss";
+@import "resources/scss/bootstrap/_close.scss";
+@import "resources/scss/bootstrap/_toasts.scss";
+@import "resources/scss/bootstrap/_modal.scss";
+@import "resources/scss/bootstrap/_tooltip.scss";
+@import "resources/scss/bootstrap/_popover.scss";
+@import "resources/scss/bootstrap/_carousel.scss";
+@import "resources/scss/bootstrap/_spinners.scss";
+
+// Helpers
+@import "resources/scss/bootstrap/_helpers.scss";
+
+// Utilities
+@import "resources/scss/bootstrap/utilities/_api.scss";
+// scss-docs-end import-stack

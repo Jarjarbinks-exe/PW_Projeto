@@ -20,10 +20,12 @@ class Administrator extends User
         'remember_token',
     ];
 
-
     protected $casts = [
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
 
+    public function user(){
+        return $this->hasOne(User::class);
+    }
 }

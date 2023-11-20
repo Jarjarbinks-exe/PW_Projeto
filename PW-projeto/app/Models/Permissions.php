@@ -9,19 +9,19 @@ class Permissions extends Model
 {
     use HasFactory;
 
-    public function documentos()
+    public function documents()
     {
-        return $this->belongsTo(Document::class);
+        return $this->belongsToMany(Document::class);
     }
 
-    public function departamentos()
+    public function departaments()
     {
-        return $this->belongsTo(Department::class);
+        return $this->belongsToMany(Department::class);
     }
 
-    public function utilizadores()
+    public function users()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsToMany(User::class, 'user_has_permission', 'permission_id', 'user_id');
     }
 
 }

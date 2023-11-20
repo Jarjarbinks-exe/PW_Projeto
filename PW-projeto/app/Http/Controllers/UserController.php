@@ -2,69 +2,90 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CreateUserRequest;
+use App\Http\Requests\UpdateUserRequest;
+use App\Models\Permissions;
 use Illuminate\Http\Request;
 use App\Models\User;
 
 class UserController extends Controller
 {
     // Operações do CRUD
-    public function index()
+    public function __construct()
     {
-        $users = User::all();
-        return view('users.index', compact('users'));
+        $this->authorizeResource(User::class, 'user');
     }
 
-    public function show($id)
+    public function index()
     {
-        $user = User::findOrFail($id);
+        $users = User::orderBy('username')->paginate(25);
+        return view(
+            'users.index',
+            [
+                'users' => $users
+            ]
+        );
+    }
+
+    public function show(User $user)
+    {
         return view('users.show', compact('user'));
     }
+
 
     public function create()
     {
         return view('users.create');
     }
 
-    public function store(Request $request)
+    public function store(CreateUserRequest $request)
     {
-        $validatedData = $request->validate([
-            'name' => 'required',
-            'email' => 'required|email|unique:users',
-            'password' => 'required|min:6',
+        ddd($request);
+        $user = User::create([
+            'username' => $request['username'],
+            'password' => $request['password'],
+            'email' => $request['email'],
+            'email_verified_at' => now(),
+            'remember token' => null,
+            'created_at' => now(),
+            'modified_at' => now(),
         ]);
-
-        $validatedData['password'] = bcrypt($request->password);
-
-        User::create($validatedData);
-
-        return redirect('/users')->with('success', 'User created!');
+        return redirect()
+            ->route('users', ['user' => $user]);
     }
 
-    public function edit($id)
+    public function edit(User $user)
     {
-        $user = User::findOrFail($id);
         return view('users.edit', compact('user'));
     }
 
-    public function update(Request $request, $id)
+    public function update(UpdateUserRequest $request, User $user)
     {
-        $validatedData = $request->validate([
-            'name' => 'required',
-            'email' => 'required|email',
-        ]);
-
-        User::whereId($id)->update($validatedData);
-
-        return redirect('/users')->with('success', 'User updated!');
+        $user->update($request->toDTO()->toArray());
+        return redirect()
+            ->route('users.show', ['user' => $user]);
     }
 
-    public function destroy($id)
+    public function destroy(User $user)
     {
-        $user = User::findOrFail($id);
-        $user->delete();
-
-        return redirect('/users')->with('success', 'User deleted!');
+        # TODO verificar se o user está associado a um documento, se sim a foreign key = null
+        User::destroy($user->id);
+        return redirect()
+            ->route('users.index');
     }
 
+    public function destroyPermission(User $user, Permissions $permission) {
+
+        $user->permissions()->detach($permission->id);
+        return redirect()
+            ->route('users.edit', compact('user'));
+    }
+
+    public function createPermission(User $user, Permissions $permission) {
+
+        $user->permissions()->attach($permission->id);
+        return redirect()
+            ->route('users.edit', compact('user'));
+    }
 }
 

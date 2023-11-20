@@ -1,18 +1,17 @@
-<?php
+@extends('layouts.autenticado')
 
-@extends('layouts.app')
-
-@section('content')
+@section('main-content')
     <h1>Create a new user</h1>
-    <form action="{{ url('/users') }}" method="post">
+    <form action="{{ route('users.create') }}" method="post">
+        @method('GET')
         @csrf
-        <label for="name">name:</label>
-        <input type="text" name="name" required><br>
-        <label for="email">email:</label>
-        <input type="email" name="email" required><br>
-        <label for="password">password:</label>
-        <input type="password" name="password" required><br>
-        <button type="submit">Create user</button>
+        Nome: <input type="text" name="username" id="" class="form-control" value="username"><br>
+        @error('username') <span class="text-danger">{{ $message }}</span><br>@enderror
+        Email: <input type="email" name="email" id="" class="form-control" value="email"><br>
+        @error('email') <span class="text-danger">{{ $message }}</span><br>@enderror
+        Password: <input type="text" name="password" id="" class="form-control" value="password"><br>
+        @error('email') <span class="text-danger">{{ $message }}</span><br>@enderror
+        <button type="submit" class="btn btn-success btn-lg">Criar User</button>
     </form>
 @endsection
 

@@ -18,7 +18,7 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
-        'name',
+        'username',
         'email',
         'password',
     ];
@@ -43,12 +43,15 @@ class User extends Authenticatable
         'password' => 'hashed',
     ];
 
-    public function documentos(){
-        return $this->hasMany(Document::class);
+    public function documents(){
+        return $this->belongsToMany(Document::class, 'users_has_documents', 'users_id', 'documents_id');
     }
 
-    public function permissoes(){
-        return $this->hasMany(Permissions::class);
+    public function permissions(){
+        return $this->belongsToMany(Permissions::class, 'user_has_permission', 'user_id', 'permission_id');
     }
 
+    public function administrator(){
+        return $this->hasOne(Administrator::class);
+    }
 }
