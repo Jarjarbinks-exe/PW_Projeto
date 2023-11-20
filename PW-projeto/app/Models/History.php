@@ -14,4 +14,13 @@ class History extends Model
         return $this->belongsTo(Document::class);
     }
 
+    protected $fillable = [
+        'created_at',
+        'updated_at',
+        'author',
+        'owner',
+        'type',
+        'document_id',
+    ];
+
 }

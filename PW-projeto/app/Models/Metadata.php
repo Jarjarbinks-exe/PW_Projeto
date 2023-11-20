@@ -10,6 +10,6 @@ class Metadata extends Model
     use HasFactory;
 
     public function documents(){
-        return $this->belongsTo(Document::class);
+        return $this->belongsToMany(Document::class, 'documents_has_metadata', 'metadata_id', 'documents_id');
     }
 }

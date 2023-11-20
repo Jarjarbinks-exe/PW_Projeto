@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('documents_has_metadata', function (Blueprint $table) {
-            $table->foreignId('document_id')->constrained();
+            $table->foreignId('documents_id')->constrained();
             $table->foreignId('metadata_id')->constrained();
         });
     }

@@ -5,17 +5,21 @@ namespace App\Dto;
 # TODO ACABAR ESTE DTO
 class UserDTO
 {
-    public string $name;
+    public string $username;
+    public string $email;
 
-    public function __construct(string $name)
+
+    public function __construct(string $username, string $email)
     {
-        $this->name = $name;
+        $this->username = $username;
+        $this->email = $email;
     }
 
     public function toArray() : array
     {
         return [
-            'name' => $this->name
+            'username' => $this->username,
+            'email' => $this->email,
         ];
     }
 }

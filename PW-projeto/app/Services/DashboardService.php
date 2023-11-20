@@ -18,20 +18,21 @@ class DashboardService
     }
 
     # TODO Isto está feio, definir um GATE para usar o modelo Admin
-    public function getIsAdmin(int $id): bool {
+    public static function getIsAdmin(int $id): bool {
          return Administrator::query()
              ->where('user_id', $id)
              ->exists();
     }
 
     # TODO RETORNAR OS DADOS DO ADMIN
-    public function getAdminData()
+    public function getAdminData(): Collection
     {
-        return Collection::class;
+        return collect(['admin' => true, 'data' => 'Admin Dashboard Data']);
     }
 
     public function getUserData(): Collection
     {
-        return collect();
+        return collect(['admin' => false, 'data' => 'User Dashboard Data']);
     }
+
 }

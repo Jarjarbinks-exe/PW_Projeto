@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CreateUserRequest;
 use App\Http\Requests\UpdateUserRequest;
+use App\Models\Permissions;
 use Illuminate\Http\Request;
 use App\Models\User;
 
@@ -11,13 +13,18 @@ class UserController extends Controller
     // Operações do CRUD
     public function __construct()
     {
-        $this->authorizeResource(User::class, ['user', 'administrator']);
+        $this->authorizeResource(User::class, 'user');
     }
 
     public function index()
     {
-        $users = User::orderBy('name')->paginate(25);
-        return view('users.index', compact('users'));
+        $users = User::orderBy('username')->paginate(25);
+        return view(
+            'users.index',
+            [
+                'users' => $users
+            ]
+        );
     }
 
     public function show(User $user)
@@ -25,15 +32,24 @@ class UserController extends Controller
         return view('users.show', compact('user'));
     }
 
+
     public function create()
     {
         return view('users.create');
     }
 
-    public function store(UpdateUserRequest $request)
+    public function store(CreateUserRequest $request)
     {
-        $user = User::create($request);
-
+        ddd($request);
+        $user = User::create([
+            'username' => $request['username'],
+            'password' => $request['password'],
+            'email' => $request['email'],
+            'email_verified_at' => now(),
+            'remember token' => null,
+            'created_at' => now(),
+            'modified_at' => now(),
+        ]);
         return redirect()
             ->route('users', ['user' => $user]);
     }
@@ -52,9 +68,24 @@ class UserController extends Controller
 
     public function destroy(User $user)
     {
+        # TODO verificar se o user está associado a um documento, se sim a foreign key = null
         User::destroy($user->id);
         return redirect()
-            ->route('users');
+            ->route('users.index');
+    }
+
+    public function destroyPermission(User $user, Permissions $permission) {
+
+        $user->permissions()->detach($permission->id);
+        return redirect()
+            ->route('users.edit', compact('user'));
+    }
+
+    public function createPermission(User $user, Permissions $permission) {
+
+        $user->permissions()->attach($permission->id);
+        return redirect()
+            ->route('users.edit', compact('user'));
     }
 }
 
