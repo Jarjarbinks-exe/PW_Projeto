@@ -112,7 +112,7 @@ class DocumentController extends Controller
             ]
         );
     }
-    # TODO FIX author
+    # TODO FIX author, Quando apaga um Documento verificar se existe file_path, se sim apagar o documento no sistema
     public function destroy(Document $document)
     {
         // Guarda a eliminação do documento no histórico de revisões

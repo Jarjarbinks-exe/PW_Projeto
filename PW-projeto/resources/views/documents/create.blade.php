@@ -2,8 +2,8 @@
 
 @section('main-content')
     <form method="post" action="{{ route('documents.upload') }}" enctype="multipart/form-data">
+        @method('GET')
         @csrf
-
         <label for="document">Choose Document:</label>
         <input type="file" name="document" id="document" required>
 
