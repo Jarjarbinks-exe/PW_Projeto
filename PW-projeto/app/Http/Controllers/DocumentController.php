@@ -5,12 +5,21 @@ namespace App\Http\Controllers;
 use App\Models\Document;
 use App\Models\History;
 use App\Models\Metadata;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use PhpParser\Comment\Doc;
 
 class DocumentController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->authorizeResource(Document::class, 'document');
+    }
+
+
+    # TODO Só os Documentos com a permissão is_viewable devem ser paginados para um user que não seja admin, método já está implementado no DocService
     public function index()
     {
         $documents = Document::orderBy('id')->paginate(25);

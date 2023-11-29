@@ -25,5 +25,37 @@ class DocumentService
         return Metadata::all()->diff($document->metadata);
     }
 
+    public static function getDocumentPermissions(Document $document) {
+        return $document->permissions;
+
+    }
+
+    public static function getViewableDocuments() {
+        return Document::all()->permissions->value == 'is_viewable';
+    }
+
+
+    /***
+     * Verifica se o Documento tem a permissão, se sim retorna True
+     *
+     ***/
+    public static function hasPermission(Document $document, string $value, ?string $type=null): bool {
+
+        if($type === null){
+            foreach ($document->permissions as $permission) {
+                if ($permission->value === $value) {
+                    return true;
+                }
+            }
+        }
+        else{
+            foreach ($document->permissions as $permission) {
+                if ($permission->value === $value &&  $permission->type === $type) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
 
 }

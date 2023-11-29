@@ -3,37 +3,50 @@
 namespace App\Policies;
 
 use App\Models\User;
+use App\Services\UserService;
+use Illuminate\Auth\Access\HandlesAuthorization;
 
 class UserPolicy
 {
     /**
      * Create a new policy instance.
      */
+    use HandlesAuthorization;
+
     public function viewAny(User $user): bool
     {
-        return true;
+        return UserService::getIsAdmin($user);
     }
 
     public function view(User $user): bool
     {
-        return true;
+        return UserService::getIsAdmin($user);
     }
 
     public function create(User $user): bool
     {
-        return true;
+        return UserService::getIsAdmin($user);
     }
 
-    /**
-     * Determine whether the user can update the model.
-     */
+
     public function delete(User $user): bool
     {
-        return true;
+        return UserService::getIsAdmin($user);
     }
 
+    # TODO passar para camada de serviço a função can_update
     public function update(User $user): bool
     {
-        return true;
+        $can_update = function($user) {
+            foreach ($user->permissions as $permission) {
+                if ($permission == 'update') {
+                    return true;
+                }
+            }
+            return false;
+        };
+
+        return UserService::getIsAdmin($user) || $can_update;
     }
+
 }
