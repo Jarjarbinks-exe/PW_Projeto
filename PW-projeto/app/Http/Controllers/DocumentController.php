@@ -34,37 +34,8 @@ class DocumentController extends Controller
 
     public function upload(Request $request, DocumentService $service)
     {
-
-        $path = $request->file('document')->store('local');
-
-        $user = Auth::user();
-
-        if ($user) {
-            $document = Document::create([
-                'created_at' => now(),
-                'updated_at' => now(),
-                'user_id' => $user->id,
-                'file_path' => $path
-            ]);
-
-            $document->users()->attach($user->id);
-
-            History::create([
-                'created_at' => now(),
-                'updated_at' => now(),
-                'author' => '',
-                'owner' => $user->username,
-                'type' => 'Deleted',
-                'document_id' => $document->id
-            ]);
-
-            if ($request->has('metadata_types')) {
-                $document->metadata()->attach($request->input('metadata_types'));
-            }
-
-            return redirect()->route('documents.create', ['document' => $document]);
-        }
-
+        $document = DocumentService::uploadDocument($request);
+        return redirect()->route('documents.create', ['document' => $document]);
     }
 
     public function store(Request $request)

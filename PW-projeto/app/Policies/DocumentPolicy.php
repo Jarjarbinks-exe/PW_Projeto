@@ -38,7 +38,7 @@ class DocumentPolicy
     }
 
 
-    public function create(User $user, Document $document): bool
+    public function create(User $user): bool
     {
         return UserService::hasPermission($user, 'create', 'document');
     }
