@@ -5,12 +5,21 @@ namespace App\Http\Controllers;
 use App\Models\Document;
 use App\Models\History;
 use App\Models\Metadata;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use PhpParser\Comment\Doc;
 
 class DocumentController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->authorizeResource(Document::class, 'document');
+    }
+
+
+    # TODO Só os Documentos com a permissão is_viewable devem ser paginados para um user que não seja admin, método já está implementado no DocService
     public function index()
     {
         $documents = Document::orderBy('id')->paginate(25);
@@ -112,7 +121,7 @@ class DocumentController extends Controller
             ]
         );
     }
-    # TODO FIX author
+    # TODO FIX author, Quando apaga um Documento verificar se existe file_path, se sim apagar o documento no sistema
     public function destroy(Document $document)
     {
         // Guarda a eliminação do documento no histórico de revisões

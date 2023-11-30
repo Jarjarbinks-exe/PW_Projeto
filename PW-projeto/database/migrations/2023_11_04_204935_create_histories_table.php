@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('author') ->nullable();
             $table->string('owner');
             $table->string('type');
-            $table->foreignId('document_id')->constrained();
+            $table->foreignId('document_id')->nullable()->constrained()->nullOnDelete();
         });
     }
 

@@ -33,8 +33,9 @@ Route::middleware('auth')->group(function () {
     Route::delete('/users/{user}/edit/{permission}', [UserController::class, 'destroyPermission'])->name('users.destroyPermission');
     Route::get('/users/{user}/edit/{permission}', [UserController::class, 'createPermission'])->name('users.createPermission');
     Route::get('/documents/create/upload', [DocumentController::class, 'upload'])->name('documents.upload');
-    Route::delete('/documents/{document}/edit/', [DocumentController::class, 'removeMetadata'])->name('documents.removeMetadata');
-    Route::get('/documents/{document}/edit/metadata', [DocumentController::class, 'createMetadata'])->name('documents.createMetadata');
+    Route::delete('/documents/{document}/edit/{metadata}', [DocumentController::class, 'removeMetadata'])->name('documents.removeMetadata');
+    Route::get('/documents/{document}/edit/{metadata}', [DocumentController::class, 'createMetadata'])->name('documents.createMetadata');
+
 
 // Rotas para o histórico de revisões
 

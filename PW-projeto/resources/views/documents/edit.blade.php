@@ -8,8 +8,8 @@
             <li>
                 Current Metadata: {{ $metadata->value }}
                 <form action="{{ route('documents.removeMetadata', ['document' => $document, 'metadata' => $metadata]) }}" method="post">
-                    @csrf
                     @method('DELETE')
+                    @csrf
                     <button type="submit">Delete</button>
                 </form>
             </li>
@@ -22,8 +22,8 @@
             <li>
                 Metadata: {{ $metadata->value }}
                 <form action="{{ route('documents.createMetadata', ['document' => $document, 'metadata' => $metadata]) }}" method="post">
-                    @csrf
                     @method('GET')
+                    @csrf
                     <button type="submit">Add</button>
                 </form>
             </li>
