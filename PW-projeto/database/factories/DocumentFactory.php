@@ -26,7 +26,7 @@ class DocumentFactory extends Factory
         return [
             'created_at' => $createdAt,
             'updated_at' => $createdAt,
-            'user_id' => fake()->numberBetween(1, 300),
+            'user_id' => fake()->numberBetween(1, 200),
         ];
 
     }

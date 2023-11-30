@@ -12,8 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('documents_has_metadata', function (Blueprint $table) {
-            $table->foreignId('documents_id')->constrained();
-            $table->foreignId('metadata_id')->constrained();
+            $table->foreignId('documents_id')->nullable()->constrained()->cascadeOnDelete();
+            $table->foreignId('metadata_id')->nullable()->constrained()->cascadeOnDelete();
         });
     }
 

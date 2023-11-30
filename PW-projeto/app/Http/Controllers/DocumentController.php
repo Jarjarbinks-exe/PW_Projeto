@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\Document;
 use App\Models\History;
 use App\Models\Metadata;
+use App\Models\Permissions;
 use App\Models\User;
+use App\Services\DocumentService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use PhpParser\Comment\Doc;
@@ -31,9 +33,10 @@ class DocumentController extends Controller
         return view('documents.create');
     }
 
-    public function upload(Request $request)
+    public function upload(Request $request, DocumentService $service)
     {
-        $path = $request->file('document')->storePublicly('local');
+
+        $path = $request->file('document')->store('local');
 
         $user = Auth::user();
 
@@ -113,7 +116,7 @@ class DocumentController extends Controller
     #TODO Editar o ficheiro em si FileSystem
     public function edit(Request $request, Document $document)
     {
-
+        //$this->authorize();
         return view(
             'documents.edit',
             [
@@ -142,6 +145,8 @@ class DocumentController extends Controller
 
     public function showHistory(Document $document)
     {
+        $this->authorize('view', $document);
+
         // Busca o histórico
         $history = History::where('document_id', $document->id)->get();
 
@@ -161,6 +166,17 @@ class DocumentController extends Controller
             ->route('documents.edit', compact('document'));
     }
 
+    public function createPermission(Document $document, Permissions $permission) {
+        $document->permissions()->attach($permission->id);
+        return redirect()
+            ->route('documents.edit', compact('document'));
+    }
+
+    public function removePermission(Document $document, Permissions $permission) {
+        $document->permissions()->detach($permission->id);
+        return redirect()
+            ->route('documents.edit', compact('document'));
+    }
 
 
 }

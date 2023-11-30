@@ -17,7 +17,6 @@ class DashboardService
         }
     }
 
-    # TODO Isto está feio, definir um GATE para usar o modelo Admin
     public static function getIsAdmin(int $id): bool {
          return Administrator::query()
              ->where('user_id', $id)

@@ -40,7 +40,6 @@ class UserController extends Controller
 
     public function store(CreateUserRequest $request)
     {
-        ddd($request);
         $user = User::create([
             'username' => $request['username'],
             'password' => $request['password'],
@@ -51,11 +50,12 @@ class UserController extends Controller
             'modified_at' => now(),
         ]);
         return redirect()
-            ->route('users', ['user' => $user]);
+            ->route('users.show', ['user' => $user]);
     }
 
     public function edit(User $user)
     {
+
         return view('users.edit', compact('user'));
     }
 

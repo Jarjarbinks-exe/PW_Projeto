@@ -13,4 +13,6 @@ class PermissionController extends Controller
         return redirect()
             ->route('users.edit', ['data' => $service->getUnownedPermissions($user)]);
     }
+
+
 }
