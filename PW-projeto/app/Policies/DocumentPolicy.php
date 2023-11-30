@@ -29,11 +29,12 @@ class DocumentPolicy
         return UserService::hasPermission($user, 'viewAny');
     }
 
-
     #TODO adicionar departamentos
     public function view(User $user, Document $document): bool
     {
-        return UserService::hasPermission($user, 'view');
+
+        return UserService::hasPermission($user, 'view')
+            && DocumentService::hasPermission($document, 'is_viewable');
     }
 
 
@@ -60,5 +61,4 @@ class DocumentPolicy
             && DocumentService::hasPermission($document, 'is_updatable', 'document');
     }
 
-    
 }

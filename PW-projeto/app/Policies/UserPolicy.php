@@ -13,6 +13,8 @@ class UserPolicy
      */
     use HandlesAuthorization;
 
+
+
     public function viewAny(User $user): bool
     {
         return UserService::getIsAdmin($user);
@@ -34,19 +36,24 @@ class UserPolicy
         return UserService::getIsAdmin($user);
     }
 
+    public function edit(User $user): bool
+    {
+        return UserService::getIsAdmin($user);
+    }
+
     # TODO passar para camada de serviço a função can_update
     public function update(User $user): bool
     {
         $can_update = function($user) {
             foreach ($user->permissions as $permission) {
-                if ($permission == 'update') {
+                if ($permission->value === 'update' && $permission->type === 'user') {
                     return true;
                 }
             }
             return false;
         };
 
-        return UserService::getIsAdmin($user) || $can_update;
+        return $can_update($user) || UserService::getIsAdmin($user);
     }
 
 }

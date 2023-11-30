@@ -21,7 +21,7 @@ class Document extends Model
     }
 
     public function permissions(){
-        return $this->belongsToMany(Permissions::class);
+        return $this->belongsToMany(Permissions::class, 'documents_has_permissions', 'documents_id', 'permissions_id');
     }
 
     public function users(){
