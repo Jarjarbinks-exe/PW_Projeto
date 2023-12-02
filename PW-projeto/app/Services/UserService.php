@@ -6,6 +6,7 @@ use App\Models\Administrator;
 use App\Models\User;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
+use App\Dto\UserDTO;
 
 class UserService
 {
@@ -40,6 +41,20 @@ class UserService
             }
         }
         return false;
+    }
+
+    public static function createUser(UserDTO $userDTO)
+    {
+        $user = User::create($userDTO->toArray());
+
+        return $user;
+    }
+
+    public static function updateUser(User $user, UserDTO $userDTO)
+    {
+        $user = User::update($userDTO->toArray());
+
+        return $user;
     }
 
 }
