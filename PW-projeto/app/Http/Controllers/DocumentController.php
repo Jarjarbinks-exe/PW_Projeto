@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use App\Models\Document;
 use App\Models\History;
 use App\Models\Metadata;
@@ -86,7 +87,7 @@ class DocumentController extends Controller
     #TODO Editar o ficheiro em si FileSystem
     public function edit(Request $request, Document $document)
     {
-        //$this->authorize();
+
         return view(
             'documents.edit',
             [
@@ -115,8 +116,6 @@ class DocumentController extends Controller
 
     public function showHistory(Document $document)
     {
-        $this->authorize('view', $document);
-
         // Busca o histórico
         $history = History::where('document_id', $document->id)->get();
 
@@ -130,8 +129,19 @@ class DocumentController extends Controller
             ->route('documents.edit', compact('document'));
     }
 
+    public function createCategory(Document $document, Category $category) {
+        $document->categories()->attach($category->id);
+        return redirect()
+            ->route('documents.edit', compact('document'));
+    }
     public function removeMetadata(Document $document, Metadata $metadata) {
         $document->metadata()->detach($metadata->id);
+        return redirect()
+            ->route('documents.edit', compact('document'));
+    }
+
+    public function removeCategory(Document $document, Category $category) {
+        $document->categories()->detach($category->id);
         return redirect()
             ->route('documents.edit', compact('document'));
     }

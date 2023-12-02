@@ -35,6 +35,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/documents/create/upload', [DocumentController::class, 'upload'])->name('documents.upload');
     Route::delete('/documents/{document}/edit/{metadata}', [DocumentController::class, 'removeMetadata'])->name('documents.removeMetadata');
     Route::get('/documents/{document}/edit/{metadata}', [DocumentController::class, 'createMetadata'])->name('documents.createMetadata');
+    Route::delete('/documents/{document}/edit/category/{category}', [DocumentController::class, 'removeCategory'])->name('documents.removeCategory');
+    Route::get('/documents/{document}/edit/category/{category}', [DocumentController::class, 'createCategory'])->name('documents.createCategory');
 
 
 // Rotas para o histórico de revisões

@@ -2,6 +2,7 @@
 namespace App\Services;
 
 use App\Models\Administrator;
+use App\Models\Category;
 use App\Models\Document;
 use App\Models\Metadata;
 use App\Models\History;
@@ -11,6 +12,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use PhpParser\Comment\Doc;
 
 class DocumentService
 {
@@ -25,6 +27,10 @@ class DocumentService
 
     public static function getUnownedMetadata(Document $document) {
         return Metadata::all()->diff($document->metadata);
+    }
+
+    public static function getUnownedCategories(Document $document) {
+        return Category::all()->diff($document->categories);
     }
 
     public static function getDocumentPermissions(Document $document) {

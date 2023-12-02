@@ -17,23 +17,23 @@ class Document extends Model
     ];
 
     public function metadata(){
-        return $this->belongsToMany(Metadata::class, 'documents_has_metadata', 'documents_id', 'metadata_id');
+        return $this->belongsToMany(Metadata::class, 'document_metadata', 'document_id', 'metadata_id');
     }
 
     public function permissions(){
-        return $this->belongsToMany(Permissions::class, 'documents_has_permissions', 'documents_id', 'permissions_id');
+        return $this->belongsToMany(Permissions::class, 'document_permission', 'document_id', 'permission_id');
     }
 
     public function users(){
-        return $this->belongsToMany(User::class, 'users_has_documents', 'documents_id', 'users_id');
+        return $this->belongsToMany(User::class, 'user_document', 'document_id', 'user_id');
     }
 
     public function history(){
         return $this->hasOne(History::class);
     }
 
-    public function category(){
-        return $this->hasMany(Category::class);
+    public function categories(){
+        return $this->belongsToMany(Category::class, 'document_category', 'document_id', 'category_id');
     }
 
 

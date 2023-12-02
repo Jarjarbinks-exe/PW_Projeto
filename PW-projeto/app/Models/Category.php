@@ -9,7 +9,7 @@ class Category extends Model
 {
     use HasFactory;
 
-    public function document()
+    public function documents()
     {
         return $this->belongsToMany(Document::class);
     }

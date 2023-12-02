@@ -44,11 +44,11 @@ class User extends Authenticatable
     ];
 
     public function documents(){
-        return $this->belongsToMany(Document::class, 'users_has_documents', 'users_id', 'documents_id');
+        return $this->belongsToMany(Document::class, 'user_document', 'user_id', 'document_id');
     }
 
     public function permissions(){
-        return $this->belongsToMany(Permissions::class, 'user_has_permission', 'user_id', 'permission_id');
+        return $this->belongsToMany(Permissions::class, 'user_permission', 'user_id', 'permission_id');
     }
 
     public function administrator(){
