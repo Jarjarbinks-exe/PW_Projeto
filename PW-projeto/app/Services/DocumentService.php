@@ -1,6 +1,7 @@
 <?php
 namespace App\Services;
 
+use App\Dto\DocumentDTO;
 use App\Models\Administrator;
 use App\Models\Category;
 use App\Models\Document;
@@ -66,20 +67,13 @@ class DocumentService
         return false;
     }
 
-    public static function uploadDocument(Request $request)
+    public static function uploadDocument(DocumentDTO $documentDTO, Request $request)
     {
-        $path = $request->file('document')->store('local');
 
         $user = Auth::user();
 
         if ($user) {
-            $document = Document::create([
-                'created_at' => now(),
-                'updated_at' => now(),
-                'user_id' => $user->id,
-                'file_path' => $path
-            ]);
-
+            $document = Document::create($documentDTO->toArray());
             $document->users()->attach($user->id);
 
             History::create([

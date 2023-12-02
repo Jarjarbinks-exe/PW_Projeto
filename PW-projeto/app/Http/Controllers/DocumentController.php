@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Dto\DocumentDTO;
 use App\Models\Category;
 use App\Models\Document;
 use App\Models\History;
@@ -35,14 +36,19 @@ class DocumentController extends Controller
 
     public function upload(Request $request, DocumentService $service)
     {
-        $document = DocumentService::uploadDocument($request);
+        $file_path = $request->file('document')->store('local');
+        $documentDTO = new DocumentDTO(Auth::id(), $file_path);
+        $document = $service->uploadDocument($documentDTO, $request);
         return redirect()->route('documents.create', ['document' => $document]);
     }
 
     public function store(Request $request)
     {
+        $documentDTO = new DocumentDTO(Auth::id(), $request->file('file_path'));
+        $document = Document::create($documentDTO->toArray());
+
         // Criação de um novo documento
-        $document = Document::create($request->all());
+        //$document = Document::create($request->all());
 
         // Guarda a criação do documento no histórico de revisões
         History::create([
@@ -67,8 +73,12 @@ class DocumentController extends Controller
 
     public function update(Request $request, Document $document)
     {
+        $documentDTO = new DocumentDTO(Auth::id(), $request->file('file_path'));
+
+        $document->update($documentDTO->toArray());
+
         // Atualização do documento
-        $document->update($request->all());
+        //$document->update($request->all());
 
         // Guarda a alteração no histórico de revisões
         History::create([
@@ -116,6 +126,8 @@ class DocumentController extends Controller
 
     public function showHistory(Document $document)
     {
+        $this->authorize('view', $document);
+
         // Busca o histórico
         $history = History::where('document_id', $document->id)->get();
 
