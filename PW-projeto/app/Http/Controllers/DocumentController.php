@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Dto\DocumentDTO;
+use App\Models\Category;
 use App\Models\Document;
 use App\Models\History;
 use App\Models\Metadata;
@@ -35,43 +37,19 @@ class DocumentController extends Controller
 
     public function upload(Request $request, DocumentService $service)
     {
-
-        $path = $request->file('document')->store('local');
-
-        $user = Auth::user();
-
-        if ($user) {
-            $document = Document::create([
-                'created_at' => now(),
-                'updated_at' => now(),
-                'user_id' => $user->id,
-                'file_path' => $path
-            ]);
-
-            $document->users()->attach($user->id);
-
-            History::create([
-                'created_at' => now(),
-                'updated_at' => now(),
-                'author' => '',
-                'owner' => $user->username,
-                'type' => 'Deleted',
-                'document_id' => $document->id
-            ]);
-
-            if ($request->has('metadata_types')) {
-                $document->metadata()->attach($request->input('metadata_types'));
-            }
-
-            return redirect()->route('documents.create', ['document' => $document]);
-        }
-
+        $file_path = $request->file('document')->store('local');
+        $documentDTO = new DocumentDTO(Auth::id(), $file_path);
+        $document = $service->uploadDocument($documentDTO, $request);
+        return redirect()->route('documents.create', ['document' => $document]);
     }
 
     public function store(Request $request)
     {
+        $documentDTO = new DocumentDTO(Auth::id(), $request->file('file_path'));
+        $document = Document::create($documentDTO->toArray());
+
         // Criação de um novo documento
-        $document = Document::create($request->all());
+        //$document = Document::create($request->all());
 
         // Guarda a criação do documento no histórico de revisões
         History::create([
@@ -96,8 +74,12 @@ class DocumentController extends Controller
 
     public function update(Request $request, Document $document)
     {
+        $documentDTO = new DocumentDTO(Auth::id(), $request->file('file_path'));
+
+        $document->update($documentDTO->toArray());
+
         // Atualização do documento
-        $document->update($request->all());
+        //$document->update($request->all());
 
         // Guarda a alteração no histórico de revisões
         History::create([
@@ -116,7 +98,7 @@ class DocumentController extends Controller
     #TODO Editar o ficheiro em si FileSystem
     public function edit(Request $request, Document $document)
     {
-        //$this->authorize();
+
         return view(
             'documents.edit',
             [
@@ -160,12 +142,22 @@ class DocumentController extends Controller
             ->route('documents.edit', compact('document'));
     }
 
+    public function createCategory(Document $document, Category $category) {
+        $document->categories()->attach($category->id);
+        return redirect()
+            ->route('documents.edit', compact('document'));
+    }
     public function removeMetadata(Document $document, Metadata $metadata) {
         $document->metadata()->detach($metadata->id);
         return redirect()
             ->route('documents.edit', compact('document'));
     }
 
+    public function removeCategory(Document $document, Category $category) {
+        $document->categories()->detach($category->id);
+        return redirect()
+            ->route('documents.edit', compact('document'));
+    }
     public function createPermission(Document $document, Permissions $permission) {
         $document->permissions()->attach($permission->id);
         return redirect()

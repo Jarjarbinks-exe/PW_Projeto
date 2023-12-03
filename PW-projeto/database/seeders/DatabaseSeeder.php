@@ -26,6 +26,7 @@ class DatabaseSeeder extends Seeder
         //$this->call(AdministratorSeeder::class);
         $this->call(PermissionsSeeder::class);
         $this->call(MetadataSeeder::class);
+        $this->call(CategorySeeder::class);
         if (App::environment() == 'local') {
             User::factory(200)->create();
             Document::factory(20)->create();

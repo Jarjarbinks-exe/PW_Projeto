@@ -12,7 +12,7 @@ class DocumentPolicy
 {
     use HandlesAuthorization;
 
-    # TODO função executada antes de todas as policies, implementar admin aqui
+
 
     /**
      * Se retornar true, pode fazer todas as ações.
