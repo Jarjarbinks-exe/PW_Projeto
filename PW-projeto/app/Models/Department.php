@@ -14,6 +14,6 @@ class Department extends Model
     }
 
     public function permissions(){
-        return $this->hasMany(Permissions::class);
+        return $this->belongsToMany(Permissions::class);
     }
 }

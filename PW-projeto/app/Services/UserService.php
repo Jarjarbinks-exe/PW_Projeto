@@ -4,20 +4,17 @@ namespace App\Services;
 
 use App\Models\Administrator;
 use App\Models\User;
+use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 use App\Dto\UserDTO;
 
 class UserService
 {
-    public static function getIsAdmin(User $user): bool {
+    public static function getIsAdmin(User|Authenticatable $user): bool {
         return Administrator::query()
             ->where('user_id', $user->id)
             ->exists();
-    }
-
-    public static function getUserPermissions(User $user) {
-        return $user->permissions;
     }
 
     /***
@@ -56,5 +53,18 @@ class UserService
 
         return $user;
     }
+
+    /**
+     * Se tiver a permissão de update para o tipo user retorna true
+    */
+    public static function canUpdateUser(User $user) {
+        foreach ($user->permissions as $permission) {
+            if ($permission->value === 'update' && $permission->type === 'user') {
+                return true;
+            }
+        }
+        return false;
+    }
+
 
 }

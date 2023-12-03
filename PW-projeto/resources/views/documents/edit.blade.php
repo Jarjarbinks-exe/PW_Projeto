@@ -2,6 +2,20 @@
 
 @section('main-content')
 
+    @if($document->file_path)
+        <a href="{{ asset('storage/' . $document->file_path) }}"> Document URL</a>
+
+        <p> Download File:</p>
+        <form
+            action="{{ route('documents.download', ['document' => $document]) }}"
+            method="post">
+            @method('GET')
+            @csrf
+            <button type="submit">Download</button>
+        </form>
+    @endif
+
+
     <p>Current Metadata:</p>
     <ul>
         @foreach($document->metadata as $metadata)
@@ -84,7 +98,7 @@
     <ul>
         @foreach(\App\Services\PermissionService::getUnownedDocumentPermissions($document) as $permission)
             <li>
-                Permission: {{ $permission->value }} Type: {{ $permission->type }}
+                Permission: {{ $permission->value }}
                 <form action="{{ route('documents.createPermission', ['document' => $document, 'permission' => $permission]) }}" method="post">
                     @method('GET')
                     @csrf

@@ -14,7 +14,7 @@ class Permissions extends Model
         return $this->belongsToMany(Document::class);
     }
 
-    public function departaments()
+    public function departments()
     {
         return $this->belongsToMany(Department::class);
     }

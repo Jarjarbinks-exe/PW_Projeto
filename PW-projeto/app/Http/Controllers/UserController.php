@@ -72,7 +72,6 @@ class UserController extends Controller
 
     public function destroy(User $user)
     {
-        # TODO verificar se o user está associado a um documento, se sim a foreign key = null
         User::destroy($user->id);
         return redirect()
             ->route('users.index');
@@ -91,5 +90,7 @@ class UserController extends Controller
         return redirect()
             ->route('users.edit', compact('user'));
     }
+
+
 }
 

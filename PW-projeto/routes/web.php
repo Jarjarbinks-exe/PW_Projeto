@@ -39,7 +39,7 @@ Route::middleware('auth')->group(function () {
     Route::delete('/documents/{document}/edit/permission/{permission}', [DocumentController::class, 'removePermission'])->name('documents.removePermission');
     Route::delete('/documents/{document}/edit/category/{category}', [DocumentController::class, 'removeCategory'])->name('documents.removeCategory');
     Route::get('/documents/{document}/edit/category/{category}', [DocumentController::class, 'createCategory'])->name('documents.createCategory');
-
+    Route::get('/documents/{document}/download/', [DocumentController::class, 'download'])->name('documents.download');
 
 // Rotas para o histórico de revisões
 

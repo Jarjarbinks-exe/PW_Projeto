@@ -13,14 +13,11 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 use PhpParser\Comment\Doc;
 
 class DocumentService
 {
-    public static function getPermissionData(): Collection
-    {
-        return self::getMetadata();
-    }
 
     public static function getMetadata() {
         return Metadata::all();
@@ -34,13 +31,13 @@ class DocumentService
         return Category::all()->diff($document->categories);
     }
 
-    public static function getDocumentPermissions(Document $document) {
-        return $document->permissions;
-
-    }
 
     public static function getViewableDocuments() {
-        return Document::all()->permissions->value == 'is_viewable';
+        return Document::with('permissions')
+            ->whereHas('permissions', function ($query) {
+                $query->where('value', 'viewAny');
+            })
+            ->paginate(25);
     }
 
 
@@ -79,17 +76,25 @@ class DocumentService
             History::create([
                 'created_at' => now(),
                 'updated_at' => now(),
-                'author' => '',
                 'owner' => $user->username,
-                'type' => 'Deleted',
+                'type' => 'created',
                 'document_id' => $document->id
             ]);
 
             if ($request->has('metadata_types')) {
                 $document->metadata()->attach($request->input('metadata_types'));
             }
-
+            return $document;
         }
+        return null;
     }
 
+    /**
+     * Se tiver um file_path, ele destrói o ficheiro nesse caminho.
+    */
+    public function destroy_file(Document $document) {
+        if($document->file_path) {
+            Storage::delete($document->file_path);
+        }
+    }
 }

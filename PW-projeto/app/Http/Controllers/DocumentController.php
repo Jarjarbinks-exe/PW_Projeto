@@ -10,9 +10,12 @@ use App\Models\Metadata;
 use App\Models\Permissions;
 use App\Models\User;
 use App\Services\DocumentService;
+use App\Services\UserService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 use PhpParser\Comment\Doc;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 class DocumentController extends Controller
 {
@@ -23,10 +26,14 @@ class DocumentController extends Controller
     }
 
 
-    # TODO Só os Documentos com a permissão is_viewable devem ser paginados para um user que não seja admin, método já está implementado no DocService
-    public function index()
+    public function index(DocumentService $service)
     {
-        $documents = Document::orderBy('id')->paginate(25);
+        if(UserService::getIsAdmin(Auth::getUser())){
+            $documents = Document::orderBy('id')->paginate(25);
+        }
+        else {
+            $documents = $service->getViewableDocuments();
+        }
         return view('documents.index', compact('documents'));
     }
 
@@ -35,12 +42,21 @@ class DocumentController extends Controller
         return view('documents.create');
     }
 
+    # TODO user consegue definir se quer o ficheiro como privately stored no back-end
     public function upload(Request $request, DocumentService $service)
     {
-        $file_path = $request->file('document')->store('local');
+        $file_path = $request->file('document')->store('','public');
         $documentDTO = new DocumentDTO(Auth::id(), $file_path);
         $document = $service->uploadDocument($documentDTO, $request);
         return redirect()->route('documents.create', ['document' => $document]);
+    }
+
+    public function download(Document $document) {
+
+        if (Storage::disk('public')->exists($document->file_path)) {
+            return Storage::disk('public')->download($document->file_path);
+        }
+        abort(404, 'File not Found');
     }
 
     public function store(Request $request)
@@ -55,12 +71,10 @@ class DocumentController extends Controller
         History::create([
             'created_at' => now(),
             'updated_at' => now(),
-            'author' => '',
             'owner' => Auth::user()->username,
             'type' => 'Deleted',
             'document_id' => $document->id,
         ]);
-
 
     }
 
@@ -85,7 +99,6 @@ class DocumentController extends Controller
         History::create([
             'created_at' => now(),
             'updated_at' => now(),
-            'author' => '',
             'owner' => Auth::user()->username,
             'type' => 'Deleted',
             'document_id' => $document->id
@@ -95,7 +108,6 @@ class DocumentController extends Controller
             ->route('documents.show', ['document' => $document]);
     }
 
-    #TODO Editar o ficheiro em si FileSystem
     public function edit(Request $request, Document $document)
     {
 
@@ -106,21 +118,23 @@ class DocumentController extends Controller
             ]
         );
     }
-    # TODO FIX author, Quando apaga um Documento verificar se existe file_path, se sim apagar o documento no sistema
-    public function destroy(Document $document)
+
+    public function destroy(Document $document, DocumentService $service)
     {
         // Guarda a eliminação do documento no histórico de revisões
         History::create([
             'created_at' => now(),
             'updated_at' => now(),
-            'author' => '',
             'owner' => Auth::user()->username,
             'type' => 'Deleted',
             'document_id' => $document->id,
         ]);
 
-        // Apaga mesmo o docuemnto
+        $service->destroy_file($document);
+
+        // Apaga mesmo o documento
         Document::destroy($document->id);
+
         return redirect()
             ->route('documents.index');
     }
@@ -135,6 +149,7 @@ class DocumentController extends Controller
         // Carrega na view o histórico
         return view('history.history', compact('history'));
     }
+
 
     public function createMetadata(Document $document, Metadata $metadata) {
         $document->metadata()->attach($metadata->id);

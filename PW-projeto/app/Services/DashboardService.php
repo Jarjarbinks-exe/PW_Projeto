@@ -23,7 +23,6 @@ class DashboardService
              ->exists();
     }
 
-    # TODO RETORNAR OS DADOS DO ADMIN
     public function getAdminData(): Collection
     {
         return collect(['admin' => true, 'data' => 'Admin Dashboard Data']);
