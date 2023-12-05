@@ -24,9 +24,10 @@ class DatabaseSeeder extends Seeder
         //     'email' => 'test@example.com',
         // ]);
         //$this->call(AdministratorSeeder::class);
-        $this->call(PermissionsSeeder::class);
-        $this->call(MetadataSeeder::class);
-        $this->call(CategorySeeder::class);
+        //$this->call(PermissionsSeeder::class);
+        //$this->call(MetadataSeeder::class);
+        //$this->call(CategorySeeder::class);
+        $this->call(DepartmentSeeder::class);
         if (App::environment() == 'local') {
             User::factory(200)->create();
             Document::factory(20)->create();

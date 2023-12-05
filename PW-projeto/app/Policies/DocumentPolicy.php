@@ -18,6 +18,7 @@ class DocumentPolicy
      * Se retornar true, pode fazer todas as ações.
      * Não pode retornar falso, senão o user não pode fazer nenhuma ação.
     **/
+    # TODO Bom para testar, retorna true mesmo que o admin n tenha permissão para veer o doc.
     public function before(User $user) {
         if(UserService::getIsAdmin($user)){
             return true;
@@ -33,7 +34,7 @@ class DocumentPolicy
     public function view(User $user, Document $document): bool
     {
 
-        return UserService::hasPermission($user, 'view')
+        return UserService::hasPermission($user, 'is_viewable')
             && DocumentService::hasPermission($document, 'is_viewable');
     }
 
@@ -51,13 +52,13 @@ class DocumentPolicy
             return true;
         }
 
-        return UserService::hasPermission($user, 'delete', 'user')
+        return UserService::hasPermission($user, 'is_deletable', 'document')
             && DocumentService::hasPermission($document, 'is_deletable', 'document');
     }
 
     public function update(User $user, Document $document): bool
     {
-        return UserService::hasPermission($user, 'update', 'user')
+        return UserService::hasPermission($user, 'is_updatable', 'document')
             && DocumentService::hasPermission($document, 'is_updatable', 'document');
     }
 

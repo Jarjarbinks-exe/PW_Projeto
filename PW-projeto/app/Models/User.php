@@ -54,4 +54,9 @@ class User extends Authenticatable
     public function administrator(){
         return $this->hasOne(Administrator::class);
     }
+
+    public function departments() {
+        return $this->belongsToMany(Department::class, 'department_user', 'user_id', 'department_id');
+    }
+
 }
