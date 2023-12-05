@@ -32,6 +32,24 @@
             </form>
         </li>
     @endforeach
-
-
+    <p> Belonging Departments: </p>
+    @foreach($user->departments as $department)
+        <li> Department: {{$department->name}}
+            <form action="{{ route('users.removeDepartment', ['user' => $user, $department->id]) }}" method="post">
+                @csrf
+                @method('DELETE')
+                <button type="submit">delete</button>
+            </form>
+        </li>
+    @endforeach
+    <p>Add Department: </p>
+    @foreach(\App\Services\DepartmentService::getUnownedDepartments($user) as $departments)
+        <li> Department: {{$departments->name}}
+            <form action="{{ route('users.createDepartment', ['user' => $user, $departments->id]) }}" method="post">
+                @csrf
+                @method('GET')
+                <button type="submit">Add</button>
+            </form>
+        </li>
+    @endforeach
 @endsection

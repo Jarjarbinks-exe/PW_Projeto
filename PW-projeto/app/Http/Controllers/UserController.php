@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\CreateUserRequest;
 use App\Http\Requests\UpdateUserRequest;
 use App\Dto\UserDTO;
+use App\Models\Department;
 use App\Models\Permissions;
 use Illuminate\Http\Request;
 use App\Models\User;
@@ -91,6 +92,17 @@ class UserController extends Controller
             ->route('users.edit', compact('user'));
     }
 
+    public function createDepartment(User $user, Department $department) {
+        $user->departments()->attach($department->id);
+        return redirect()
+            ->route('users.edit', compact('user'));
+    }
+
+    public function removeDepartment(User $user, Department $department) {
+        $user->departments()->detach($department->id);
+        return redirect()
+            ->route('users.edit', compact('user'));
+    }
 
 }
 

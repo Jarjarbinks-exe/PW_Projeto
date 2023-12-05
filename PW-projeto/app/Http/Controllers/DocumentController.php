@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Dto\DocumentDTO;
 use App\Models\Category;
+use App\Models\Department;
 use App\Models\Document;
 use App\Models\History;
 use App\Models\Metadata;

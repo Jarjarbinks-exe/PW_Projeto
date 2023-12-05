@@ -18,7 +18,7 @@ class DocumentPolicy
      * Se retornar true, pode fazer todas as ações.
      * Não pode retornar falso, senão o user não pode fazer nenhuma ação.
     **/
-    # TODO Bom para testar, retorna true mesmo que o admin n tenha permissão para veer o doc.
+    # TODO Bom para testar, retorna true mesmo que o admin n tenha permissão para ver o doc.
     public function before(User $user) {
         if(UserService::getIsAdmin($user)){
             return true;
