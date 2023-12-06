@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Dto\DocumentDTO;
+use App\Mail\URLSender;
 use App\Models\Category;
 use App\Models\Department;
 use App\Models\Document;
@@ -14,6 +15,7 @@ use App\Services\DocumentService;
 use App\Services\UserService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 use PhpParser\Comment\Doc;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
@@ -186,5 +188,10 @@ class DocumentController extends Controller
             ->route('documents.edit', compact('document'));
     }
 
+    public function sendEmail(Document $document) {
+        Mail::to(Auth::user())->send(new URLSender(Auth::user(),$document));
+        return redirect()
+            ->route('documents.edit', compact('document'));
+    }
 
 }

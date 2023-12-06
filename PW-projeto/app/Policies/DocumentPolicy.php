@@ -30,7 +30,6 @@ class DocumentPolicy
         return UserService::hasPermission($user, 'viewAny', 'document');
     }
 
-    #TODO adicionar departamentos
     public function view(User $user, Document $document): bool
     {
 

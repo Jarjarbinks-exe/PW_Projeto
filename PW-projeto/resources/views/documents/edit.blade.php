@@ -13,7 +13,18 @@
             @csrf
             <button type="submit">Download</button>
         </form>
+
+        <p> Send URL to Email:</p>
+        <form
+            action="{{ route('documents.sendEmail', ['document' => $document]) }}"
+            method="post">
+            @method('GET')
+            @csrf
+            <button type="submit">Send Mail</button>
+        </form>
+
     @endif
+
 
 
     <p>Current Metadata:</p>

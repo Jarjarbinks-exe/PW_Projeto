@@ -42,9 +42,9 @@ Route::middleware('auth')->group(function () {
     Route::delete('/documents/{document}/edit/category/{category}', [DocumentController::class, 'removeCategory'])->name('documents.removeCategory');
     Route::get('/documents/{document}/edit/category/{category}', [DocumentController::class, 'createCategory'])->name('documents.createCategory');
     Route::get('/documents/{document}/download/', [DocumentController::class, 'download'])->name('documents.download');
+    Route::get('/documents/{document}/sendEmail', [DocumentController::class, 'sendEmail'])->name('documents.sendEmail');
 
 // Rotas para o histórico de revisões
-
 Route::get('/documents/{document}/history', [DocumentController::class, 'showHistory'])->name('documents.history');
 
 });
