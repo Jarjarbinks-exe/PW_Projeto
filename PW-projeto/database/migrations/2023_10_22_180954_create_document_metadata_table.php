@@ -11,9 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('departments_has_users', function (Blueprint $table) {
-            $table->foreignId('users_id')->constrained();
-            $table->foreignId('departments_id')->constrained();
+        Schema::create('document_metadata', function (Blueprint $table) {
+            $table->foreignId('document_id')->nullable()->constrained()->cascadeOnDelete();
+            $table->foreignId('metadata_id')->nullable()->constrained()->cascadeOnDelete();
         });
     }
 
@@ -22,6 +22,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('departments_has_users');
+        Schema::dropIfExists('document_metadata');
     }
 };

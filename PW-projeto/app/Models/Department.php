@@ -10,10 +10,11 @@ class Department extends Model
     use HasFactory;
 
     public function users(){
-        return $this->hasMany(User::class);
+        return $this->hasMany(User::class, 'user_id', 'department_id');
     }
 
     public function permissions(){
-        return $this->hasMany(Permissions::class);
+        return $this->belongsToMany(Permissions::class, 'department_permission', 'department_id', 'permission_id');
     }
+
 }

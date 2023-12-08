@@ -11,9 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('departments_has_permissions', function (Blueprint $table) {
-            $table->foreignId('permissions_id')->constrained();
-            $table->foreignId('departments_id')->constrained();
+        Schema::create('user_document', function (Blueprint $table) {
+            $table->foreignId('user_id')->nullable()->constrained()->cascadeOnDelete();
+            $table->foreignId('document_id')->nullable()->constrained()->cascadeOnDelete();
         });
     }
 
@@ -22,6 +22,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('departments_has_permissions');
+        Schema::dropIfExists('user_document');
     }
 };

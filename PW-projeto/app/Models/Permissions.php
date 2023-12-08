@@ -14,14 +14,14 @@ class Permissions extends Model
         return $this->belongsToMany(Document::class);
     }
 
-    public function departaments()
+    public function departments()
     {
         return $this->belongsToMany(Department::class);
     }
 
     public function users()
     {
-        return $this->belongsToMany(User::class, 'user_has_permission', 'permission_id', 'user_id');
+        return $this->belongsToMany(User::class);
     }
 
 }

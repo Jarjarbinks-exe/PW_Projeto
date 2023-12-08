@@ -2,13 +2,23 @@
 
 namespace App\Http\Controllers;
 
+use App\Dto\DocumentDTO;
+use App\Mail\URLSender;
+use App\Models\Category;
+use App\Models\Department;
 use App\Models\Document;
 use App\Models\History;
 use App\Models\Metadata;
+use App\Models\Permissions;
 use App\Models\User;
+use App\Services\DocumentService;
+use App\Services\UserService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Storage;
 use PhpParser\Comment\Doc;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 class DocumentController extends Controller
 {
@@ -19,10 +29,14 @@ class DocumentController extends Controller
     }
 
 
-    # TODO Só os Documentos com a permissão is_viewable devem ser paginados para um user que não seja admin, método já está implementado no DocService
-    public function index()
+    public function index(DocumentService $service)
     {
-        $documents = Document::orderBy('id')->paginate(25);
+        if(UserService::getIsAdmin(Auth::getUser())){
+            $documents = Document::orderBy('id')->paginate(25);
+        }
+        else {
+            $documents = $service->getViewableDocuments();
+        }
         return view('documents.index', compact('documents'));
     }
 
@@ -31,55 +45,39 @@ class DocumentController extends Controller
         return view('documents.create');
     }
 
-    public function upload(Request $request)
+    # TODO user consegue definir se quer o ficheiro como privately stored no back-end
+    public function upload(Request $request, DocumentService $service)
     {
-        $path = $request->file('document')->storePublicly('local');
+        $file_path = $request->file('document')->store('','public');
+        $documentDTO = new DocumentDTO(Auth::id(), $file_path);
+        $document = $service->uploadDocument($documentDTO, $request);
+        return redirect()->route('documents.create', ['document' => $document]);
+    }
 
-        $user = Auth::user();
+    public function download(Document $document) {
 
-        if ($user) {
-            $document = Document::create([
-                'created_at' => now(),
-                'updated_at' => now(),
-                'user_id' => $user->id,
-                'file_path' => $path
-            ]);
-
-            $document->users()->attach($user->id);
-
-            History::create([
-                'created_at' => now(),
-                'updated_at' => now(),
-                'author' => '',
-                'owner' => $user->username,
-                'type' => 'Deleted',
-                'document_id' => $document->id
-            ]);
-
-            if ($request->has('metadata_types')) {
-                $document->metadata()->attach($request->input('metadata_types'));
-            }
-
-            return redirect()->route('documents.create', ['document' => $document]);
+        if (Storage::disk('public')->exists($document->file_path)) {
+            return Storage::disk('public')->download($document->file_path);
         }
-
+        abort(404, 'File not Found');
     }
 
     public function store(Request $request)
     {
+        $documentDTO = new DocumentDTO(Auth::id(), $request->file('file_path'));
+        $document = Document::create($documentDTO->toArray());
+
         // Criação de um novo documento
-        $document = Document::create($request->all());
+        //$document = Document::create($request->all());
 
         // Guarda a criação do documento no histórico de revisões
         History::create([
             'created_at' => now(),
             'updated_at' => now(),
-            'author' => '',
             'owner' => Auth::user()->username,
             'type' => 'Deleted',
             'document_id' => $document->id,
         ]);
-
 
     }
 
@@ -93,14 +91,17 @@ class DocumentController extends Controller
 
     public function update(Request $request, Document $document)
     {
+        $documentDTO = new DocumentDTO(Auth::id(), $request->file('file_path'));
+
+        $document->update($documentDTO->toArray());
+
         // Atualização do documento
-        $document->update($request->all());
+        //$document->update($request->all());
 
         // Guarda a alteração no histórico de revisões
         History::create([
             'created_at' => now(),
             'updated_at' => now(),
-            'author' => '',
             'owner' => Auth::user()->username,
             'type' => 'Deleted',
             'document_id' => $document->id
@@ -110,7 +111,6 @@ class DocumentController extends Controller
             ->route('documents.show', ['document' => $document]);
     }
 
-    #TODO Editar o ficheiro em si FileSystem
     public function edit(Request $request, Document $document)
     {
 
@@ -121,27 +121,31 @@ class DocumentController extends Controller
             ]
         );
     }
-    # TODO FIX author, Quando apaga um Documento verificar se existe file_path, se sim apagar o documento no sistema
-    public function destroy(Document $document)
+
+    public function destroy(Document $document, DocumentService $service)
     {
         // Guarda a eliminação do documento no histórico de revisões
         History::create([
             'created_at' => now(),
             'updated_at' => now(),
-            'author' => '',
             'owner' => Auth::user()->username,
             'type' => 'Deleted',
             'document_id' => $document->id,
         ]);
 
-        // Apaga mesmo o docuemnto
+        $service->destroy_file($document);
+
+        // Apaga mesmo o documento
         Document::destroy($document->id);
+
         return redirect()
             ->route('documents.index');
     }
 
     public function showHistory(Document $document)
     {
+        $this->authorize('view', $document);
+
         // Busca o histórico
         $history = History::where('document_id', $document->id)->get();
 
@@ -149,18 +153,45 @@ class DocumentController extends Controller
         return view('history.history', compact('history'));
     }
 
+
     public function createMetadata(Document $document, Metadata $metadata) {
         $document->metadata()->attach($metadata->id);
         return redirect()
             ->route('documents.edit', compact('document'));
     }
 
+    public function createCategory(Document $document, Category $category) {
+        $document->categories()->attach($category->id);
+        return redirect()
+            ->route('documents.edit', compact('document'));
+    }
     public function removeMetadata(Document $document, Metadata $metadata) {
         $document->metadata()->detach($metadata->id);
         return redirect()
             ->route('documents.edit', compact('document'));
     }
 
+    public function removeCategory(Document $document, Category $category) {
+        $document->categories()->detach($category->id);
+        return redirect()
+            ->route('documents.edit', compact('document'));
+    }
+    public function createPermission(Document $document, Permissions $permission) {
+        $document->permissions()->attach($permission->id);
+        return redirect()
+            ->route('documents.edit', compact('document'));
+    }
 
+    public function removePermission(Document $document, Permissions $permission) {
+        $document->permissions()->detach($permission->id);
+        return redirect()
+            ->route('documents.edit', compact('document'));
+    }
+
+    public function sendEmail(Document $document) {
+        Mail::to(Auth::user())->send(new URLSender(Auth::user(),$document));
+        return redirect()
+            ->route('documents.edit', compact('document'));
+    }
 
 }

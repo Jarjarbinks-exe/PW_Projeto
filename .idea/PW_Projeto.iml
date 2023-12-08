@@ -10,6 +10,7 @@
       <sourceFolder url="file://$MODULE_DIR$/PW-projeto/tests/Unit" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/spec" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/tests" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/PW-projeto/spec" isTestSource="true" />
       <excludeFolder url="file://$MODULE_DIR$/PW-projeto/vendor/brick/math" />
       <excludeFolder url="file://$MODULE_DIR$/PW-projeto/vendor/composer" />
       <excludeFolder url="file://$MODULE_DIR$/PW-projeto/vendor/dflydev/dot-access-data" />
@@ -122,6 +123,8 @@
       <excludeFolder url="file://$MODULE_DIR$/PW-projeto/vendor/vlucas/phpdotenv" />
       <excludeFolder url="file://$MODULE_DIR$/PW-projeto/vendor/voku/portable-ascii" />
       <excludeFolder url="file://$MODULE_DIR$/PW-projeto/vendor/webmozart/assert" />
+      <excludeFolder url="file://$MODULE_DIR$/PW-projeto/vendor/barryvdh/laravel-debugbar" />
+      <excludeFolder url="file://$MODULE_DIR$/PW-projeto/vendor/maximebf/debugbar" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

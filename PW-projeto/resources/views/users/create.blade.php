@@ -2,14 +2,14 @@
 
 @section('main-content')
     <h1>Create a new user</h1>
-    <form action="{{ route('users.create') }}" method="post">
-        @method('GET')
+    <form action="{{ route('users.store') }}" method="post">
+        @method('POST')
         @csrf
-        Nome: <input type="text" name="username" id="" class="form-control" value="username"><br>
+        Nome: <input type="text" name="username" id="" class="form-control" value=""><br>
         @error('username') <span class="text-danger">{{ $message }}</span><br>@enderror
-        Email: <input type="email" name="email" id="" class="form-control" value="email"><br>
+        Email: <input type="email" name="email" id="" class="form-control" value=""><br>
         @error('email') <span class="text-danger">{{ $message }}</span><br>@enderror
-        Password: <input type="text" name="password" id="" class="form-control" value="password"><br>
+        Password: <input type="text" name="password" id="" class="form-control" value=""><br>
         @error('email') <span class="text-danger">{{ $message }}</span><br>@enderror
         <button type="submit" class="btn btn-success btn-lg">Criar User</button>
     </form>
