@@ -25,11 +25,12 @@ class UpdateUserRequest extends FormRequest
         return [
             'username' => ['required', 'max:250', 'min:6'],
             'email' => ['nullable', 'email'],
+            'password' =>['required', 'min:6'],
         ];
     }
 
     public function toDTO(): UserDTO
     {
-        return new UserDTO($this->username, $this->email);
+        return new UserDTO($this->username, $this->password, $this->email);
     }
 }

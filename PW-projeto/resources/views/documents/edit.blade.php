@@ -22,7 +22,6 @@
             @csrf
             <button type="submit">Send Mail</button>
         </form>
-
     @endif
 
 

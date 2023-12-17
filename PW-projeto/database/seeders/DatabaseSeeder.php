@@ -27,8 +27,8 @@ class DatabaseSeeder extends Seeder
         //$this->call(PermissionsSeeder::class);
         //$this->call(MetadataSeeder::class);
         //$this->call(CategorySeeder::class);
-        $this->call(DepartmentSeeder::class);
-        if (App::environment() == 'local') {
+        //$this->call(DepartmentSeeder::class);
+        if (App::environment() == 'local' || App::environment() == 'testing') {
             User::factory(200)->create();
             Document::factory(20)->create();
             //Document::factory()->afterCreating(function ($document) {

@@ -23,6 +23,7 @@ class DocumentPolicy
         if(UserService::getIsAdmin($user)){
             return true;
         }
+        return null;
    }
 
     public function viewAny(User $user): bool
