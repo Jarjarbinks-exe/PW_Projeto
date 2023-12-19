@@ -21,6 +21,7 @@ Route::middleware('auth:sanctum')->group(function () {
     });
 
     Route::apiResource('users', \App\Http\Controllers\Api\UserController::class);
+    Route::apiResource('departments', \App\Http\Controllers\Api\DepartmentController::class);
 });
 
 //Route::get('/users', [UserController::class, 'index']);
