@@ -5,10 +5,24 @@
     <form action="{{ route('users.update', ['user' => $user]) }}" method="post">
         @method('PUT')
         @csrf
-        Nome: <input type="text" name="username" id="" class="form-control" value="{{ old('username', $user->username) }}"><br>
-        @error('username') <span class="text-danger">{{ $message }}</span><br>@enderror
-        Email: <input type="email" name="email" id="" class="form-control" value="{{ old('email', $user->email) }}"><br>
-        @error('email') <span class="text-danger">{{ $message }}</span><br>@enderror
+        <div>
+            <label for="username">Nome:</label>
+            <input type="text" name="username" id="username" class="form-control" value="{{ old('username', $user->username) }}">
+            @error('username') <span class="text-danger">{{ $message }}</span><br> @enderror
+        </div>
+
+        <div>
+            <label for="email">Email:</label>
+            <input type="email" name="email" id="email" class="form-control" value="{{ old('email', $user->email) }}">
+            @error('email') <span class="text-danger">{{ $message }}</span><br> @enderror
+        </div>
+
+        <div>
+            <label for="password">Nova Password:</label>
+            <input type="password" name="password" id="password" class="form-control" value="{{ old('password') }}">
+            @error('password') <span class="text-danger">{{ $message }}</span><br> @enderror
+        </div>
+
         <button type="submit" class="btn btn-success btn-lg">Guardar Modificações</button>
 
     </form>

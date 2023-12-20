@@ -61,7 +61,6 @@ class UserController extends Controller
 
     public function update(UpdateUserRequest $request, User $user)
     {
-        dd($user);
         $userDTO = new UserDTO(
             $request['username'],
             $request['password'],
