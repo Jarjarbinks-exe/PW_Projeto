@@ -48,7 +48,8 @@ class DocumentController extends Controller
     # TODO user consegue definir se quer o ficheiro como privately stored no back-end
     public function upload(Request $request, DocumentService $service)
     {
-        $file_path = $request->file('document')->store('','public');
+
+        $file_path = $request->file('document')->store('files','public');
         $documentDTO = new DocumentDTO(Auth::id(), $file_path);
         $document = $service->uploadDocument($documentDTO, $request);
         return redirect()->route('documents.create', ['document' => $document]);
