@@ -45,12 +45,18 @@
                         <td>{{ $user->username }}</td>
                         <td>{{ $user->email }}</td>
                         <td>
-                            <a href="{{ url('/users/'.$user->id) }}" class="btn btn-info">Details</a>
-                            <a href="{{ url('/users/'.$user->id.'/edit') }}" class="btn btn-warning">Edit</a>
+                            <a href="{{ url('/users/'.$user->id) }}" class="btn btn-info">
+                                <i class="fa fa-info-circle fa-fw mr-2"></i>Details
+                            </a>
+                            <a href="{{ url('/users/'.$user->id.'/edit') }}" class="btn btn-warning">
+                                <i class="fa fa-edit fa-fw mr-2"></i>Edit
+                            </a>
                             <form action="{{ url('/users/'.$user->id) }}" method="post" style="display: inline;">
                                 @csrf
                                 @method('DELETE')
-                                <button type="submit" class="btn btn-danger">Delete</button>
+                                <button type="submit" class="btn btn-danger">
+                                    <i class="fa fa-trash fa-fw mr-2"></i>Delete
+                                </button>
                             </form>
                         </td>
                     </tr>

@@ -50,13 +50,41 @@
                         <td>{{ $document->id }}</td>
                         <td>{{ $document->created_at }}</td>
                         <td>
-                            <a href="{{ url('/documents/'.$document->id.'/history') }}" class="btn btn-info">Details</a>
-                            <a href="{{ url('/documents/'.$document->id.'/edit') }}" class="btn btn-warning">Edit</a>
-                            <form action="{{ url('/documents/'.$document->id) }}" method="post" style="display: inline;">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="btn btn-danger">Delete</button>
-                            </form>
+                            <a href="{{ url('/documents/'.$document->id.'/history') }}" class="btn btn-info">
+                                <i class="fa fa-info-circle fa-fw mr-2"></i>Details
+                            </a>
+                            @if(!$document->password || session('valid_response_'.$document->id))
+                                @if($document->file_path)
+                                    <a href="{{ asset('storage/' . $document->file_path) }}" class="btn btn-secondary">
+                                        <i class="fa fa-eye fa-fw mr-2"></i>View
+                                    </a>
+                                @endif
+                                <a href="{{ url('/documents/'.$document->id.'/edit') }}" class="btn btn-warning">
+                                    <i class="fa fa-edit fa-fw mr-2"></i>Edit
+                                </a>
+                                <form action="{{ url('/documents/'.$document->id) }}" method="post" style="display: inline;">
+                                    @csrf
+                                    @method('delete')
+                                    <button type="submit" class="btn btn-danger">
+                                        <i class="fa fa-trash fa-fw mr-2"></i>Delete
+                                    </button>
+                                </form>
+                            @else
+                                <form action="{{ route('documents.password', ['document' => $document]) }}" method="post">
+                                    @csrf
+                                    @method('GET')
+                                    <div class="form-group">
+                                        <label for="password">Password:</label>
+                                        <input type="password" name="password" id="password" class="form-control" required>
+                                    </div>
+                                    @error('password')
+                                    <span class="text-danger">{{ $message }}</span>
+                                    @enderror
+                                    <button type="submit" class="btn btn-success">
+                                        <i class="fa fa-check fa-fw mr-2"></i>Confirm Password
+                                    </button>
+                                </form>
+                            @endif
                         </td>
                     </tr>
                 @endforeach
@@ -64,5 +92,4 @@
             </table>
         </div>
     </div>
-    {{-- $users->links('pagination::bootstrap-4') --}}
 </div>

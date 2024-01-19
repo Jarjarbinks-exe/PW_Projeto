@@ -180,13 +180,14 @@ class DocumentController extends Controller
     }
 
     public function password(Request $request, Document $document) {
-
         $userInputPassword = $request['password'];
+
         if (password_verify($userInputPassword, $document->password)) {
-            session()->flash('valid_response', true);
+            session()->flash('valid_response_'.$document->id, true);
         } else {
-            session()->flash('invalid_response', false);
+            session()->flash('valid_response_'.$document->id, false);
         }
+
         return redirect()->route('documents.index');
     }
 
