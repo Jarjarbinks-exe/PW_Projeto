@@ -73,13 +73,7 @@ class DocumentService
             $document = Document::create($documentDTO->toArray());
             $document->users()->attach($user->id);
 
-            History::create([
-                'created_at' => now(),
-                'updated_at' => now(),
-                'owner' => $user->username,
-                'type' => 'created',
-                'document_id' => $document->id
-            ]);
+            DocumentService::createHistoryCreated($document);
 
             if ($request->has('metadata_types')) {
                 $document->metadata()->attach($request->input('metadata_types'));
@@ -92,9 +86,46 @@ class DocumentService
     /**
      * Se tiver um file_path, ele destrói o ficheiro nesse caminho.
     */
-    public function destroy_file(Document $document) {
+    public static function destroy_file(Document $document) {
         if($document->file_path) {
             Storage::delete($document->file_path);
         }
     }
+
+    public static function createHistoryDeleted(Document $document) {
+        if ($user=Auth::user()) {
+            History::create([
+                'created_at' => now(),
+                'updated_at' => now(),
+                'owner' => $user->username,
+                'type' => 'Deleted',
+                'document_id' => $document->id
+            ]);
+        }
+    }
+
+    public static function createHistoryModified(Document $document) {
+        if ($user=Auth::user()) {
+            History::create([
+                'created_at' => now(),
+                'updated_at' => now(),
+                'owner' => $user->username,
+                'type' => 'Modified',
+                'document_id' => $document->id
+            ]);
+        }
+    }
+
+    public static function createHistoryCreated(Document $document) {
+        if ($user=Auth::user()) {
+            History::create([
+                'created_at' => now(),
+                'updated_at' => now(),
+                'owner' => $user->username,
+                'type' => 'Created',
+                'document_id' => $document->id
+            ]);
+        }
+    }
+
 }
