@@ -8,7 +8,7 @@
         </div>
         <div class="col-md-4">
             <div class="form-group">
-                <label for="department" class="lead">Departament</label>
+                <label for="department" class="lead">Department</label>
                 <select wire:model.live="department" class="form-control" name="department" id="department">
                     <option value=""></option>
                     <option value="1">Contabilidade</option>

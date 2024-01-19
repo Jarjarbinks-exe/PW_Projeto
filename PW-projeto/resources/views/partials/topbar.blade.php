@@ -8,14 +8,14 @@
                 <!-- Logo icon -->
                 <b class="logo-icon">
                     <!-- Dark Logo icon -->
-                    <img src="{{asset('dashboard_template/plugins/images/logo-icon.png')}}" alt="homepage" class="img-fluid" style="max-width: 50px; height: auto;" />
+                    <img src="{{asset('dashboard_template/plugins/images/logo-icon.png')}}" alt="homepage" class="img-fluid" style="max-width: 30px; height: auto;" />
                 </b>
 
                 <!--End Logo icon -->
                 <!-- Logo text -->
                 <span class="logo-text">
                             <!-- dark Logo text -->
-                            <img src="{{asset('dashboard_template/plugins/images/logo-text.png')}}" alt="homepage" class="img-fluid" style="max-width: 150px; height: auto;" />
+                            <img src="{{asset('dashboard_template/plugins/images/logo-text.png')}}" alt="homepage" class="img-fluid" style="max-width: 150px; height: auto;"/>
                         </span>
             </a>
             <!-- ============================================================== -->
