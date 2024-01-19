@@ -6,6 +6,14 @@ Author: Wrappixel
 Email: niravjoshi87@gmail.com
 File: js
 */
+import Alpine from 'alpinejs';
+
+window.Alpine = Alpine;
+
+Alpine.start();
+
+
+
 $(function () {
     "use strict";
     // ==============================================================

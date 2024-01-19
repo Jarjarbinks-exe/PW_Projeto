@@ -48,9 +48,8 @@ class DocumentController extends Controller
     # TODO user consegue definir se quer o ficheiro como privately stored no back-end
     public function upload(Request $request, DocumentService $service)
     {
-
         $file_path = $request->file('document')->store('files','public');
-        $documentDTO = new DocumentDTO(Auth::id(), $file_path);
+        $documentDTO = new DocumentDTO(Auth::id(), $file_path,  $request["password_fill"]);
         $document = $service->uploadDocument($documentDTO, $request);
         return redirect()->route('documents.create', ['document' => $document]);
     }
@@ -76,7 +75,7 @@ class DocumentController extends Controller
             'created_at' => now(),
             'updated_at' => now(),
             'owner' => Auth::user()->username,
-            'type' => 'Deleted',
+            'type' => 'Updated',
             'document_id' => $document->id,
         ]);
 
@@ -90,10 +89,10 @@ class DocumentController extends Controller
         return view('documents.show', compact('document'));
     }
 
+    #TODO se restar tempo, um user pode mudar a password do seu documento...
     public function update(Request $request, Document $document)
     {
         $documentDTO = new DocumentDTO(Auth::id(), $request->file('file_path'));
-
         $document->update($documentDTO->toArray());
 
         // Atualização do documento
@@ -104,7 +103,7 @@ class DocumentController extends Controller
             'created_at' => now(),
             'updated_at' => now(),
             'owner' => Auth::user()->username,
-            'type' => 'Deleted',
+            'type' => 'Updated',
             'document_id' => $document->id
         ]);
 
@@ -193,6 +192,17 @@ class DocumentController extends Controller
         Mail::to(Auth::user())->send(new URLSender(Auth::user(),$document));
         return redirect()
             ->route('documents.edit', compact('document'));
+    }
+
+    public function password(Request $request, Document $document) {
+
+        $userInputPassword = $request['password'];
+        if (password_verify($userInputPassword, $document->password)) {
+            session()->flash('valid_response', true);
+        } else {
+            session()->flash('invalid_response', false);
+        }
+        return redirect()->route('documents.index');
     }
 
 }

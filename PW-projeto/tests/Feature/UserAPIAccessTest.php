@@ -83,7 +83,7 @@ class UserAPIAccessTest extends TestCase
     public function test_can_create() {
         $user = User::create([
             'username' => 'algo',
-            'email' => Str::random(8) . '@example.com', // Use a unique email for each test
+            'email' => Str::random(8) . '@example.com',
             'password' => '12345678',
         ]);
         $token = $user->createToken('test_positivo', ['users:create']);
@@ -94,7 +94,7 @@ class UserAPIAccessTest extends TestCase
             [
                 'username' => 'joaquim',
                 'password' => '12345678',
-                'email' => Str::random(8) . '@example.com', // Use a unique email for each test
+                'email' => Str::random(8) . '@example.com',
             ],
             [
                 'Accept' => 'application/json',
@@ -108,7 +108,7 @@ class UserAPIAccessTest extends TestCase
     public function test_can_update() {
         $user = User::create([
             'username' => 'algo',
-            'email' => Str::random(8) . '@example.com', // Use a unique email for each test
+            'email' => Str::random(8) . '@example.com',
             'password' => '12345678',
         ]);
 
@@ -120,7 +120,7 @@ class UserAPIAccessTest extends TestCase
             [
                 'username' => 'TesteUpdate',
                 'password' => '12345678',
-                'email' => Str::random(8) . '@example.com', // Use a unique email for each test
+                'email' => Str::random(8) . '@example.com',
             ],
             [
                 'Accept' => 'application/json',
@@ -134,7 +134,7 @@ class UserAPIAccessTest extends TestCase
     public function test_can_destroy() {
         $user = User::create([
             'username' => 'algo',
-            'email' => Str::random(8) . '@example.com', // Use a unique email for each test
+            'email' => Str::random(8) . '@example.com',
             'password' => '12345678',
         ]);
         Auth::login($user);

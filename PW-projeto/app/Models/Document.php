@@ -13,7 +13,16 @@ class Document extends Model
         'created_at',
         'updated_at',
         'user_id',
-        'file_path'
+        'file_path',
+        'password',
+    ];
+
+    protected $hidden = [
+        'password',
+    ];
+
+    protected $casts = [
+        'password' => 'hashed',
     ];
 
     public function metadata(){

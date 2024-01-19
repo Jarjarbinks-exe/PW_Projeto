@@ -10,7 +10,7 @@
         Email: <input type="email" name="email" id="" class="form-control" value=""><br>
         @error('email') <span class="text-danger">{{ $message }}</span><br>@enderror
         Password: <input type="text" name="password" id="" class="form-control" value=""><br>
-        @error('email') <span class="text-danger">{{ $message }}</span><br>@enderror
+        @error('password') <span class="text-danger">{{ $message }}</span><br>@enderror
         <button type="submit" class="btn btn-success btn-lg">Criar User</button>
     </form>
 @endsection

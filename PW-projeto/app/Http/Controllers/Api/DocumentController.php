@@ -22,8 +22,6 @@ class DocumentController extends Controller
      */
     public function index()
     {
-        // Implement logic to fetch and return a collection of documents
-        // Use DocumentResourceCollection to transform the response
         if (!Auth::user()->tokenCan('documents:list')) {
             abort(403);
         }
@@ -137,7 +135,7 @@ class DocumentController extends Controller
             $document->delete();
 
             // You can return a success response or an empty response
-            return response()->json(['message' => 'Documento destruído com sucesso']);
+            return response()->json(['message' => 'Documento destruído com sucesso' . $document->id]);
         } catch (\Exception $e) {
             if ($e instanceof ModelNotFoundException) {
                 return response()->json(['message' => 'Não encontrado'], 404);

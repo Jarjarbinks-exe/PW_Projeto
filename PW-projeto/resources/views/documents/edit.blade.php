@@ -3,7 +3,6 @@
 @section('main-content')
 
     @if($document->file_path)
-        <a href="{{ asset('storage/' . $document->file_path) }}"> Document URL</a>
 
         <p> Download File:</p>
         <form
@@ -23,8 +22,6 @@
             <button type="submit">Send Mail</button>
         </form>
     @endif
-
-
 
     <p>Current Metadata:</p>
     <ul>

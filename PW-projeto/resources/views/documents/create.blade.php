@@ -16,7 +16,7 @@
         </label>
 
         <label for="password" id="passwordLabel">
-            <input type="password" name="password_fill" id="password" >
+            <input type="password" name="password_fill" id="password">
         </label>
 
         <p>Select Metadata Types:</p>

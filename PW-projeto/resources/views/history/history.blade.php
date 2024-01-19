@@ -1,6 +1,6 @@
-@extends('layouts.app')
+@extends('layouts.autenticado')
 
-@section('content')
+@section('main-content')
     <h1>History</h1>
     <table>
         <thead>

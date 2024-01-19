@@ -89,5 +89,18 @@ class UserService
         return false;
     }
 
+    public function deleteEmployee(User $user): bool
+    {
+        if (!Auth::user()->can('delete', $user)) {
+            throw new \Exception('Não tem permissões');
+        }
+
+        try {
+            $user->delete();
+            return true;
+        } catch (\Exception $exception) {
+            throw new \Exception('Não foi possível remover o funcionário');
+        }
+    }
 
 }

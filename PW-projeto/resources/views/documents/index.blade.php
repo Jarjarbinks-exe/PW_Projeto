@@ -20,12 +20,23 @@
                             <td>{{ $document->created_at }}</td>
                             <td>
                                 <a href="{{ url('/documents/'.$document->id.'/history') }}">details</a>
-                                <a href="{{ url('/documents/'.$document->id.'/edit') }}">edit</a>
-                                <form action="{{ url('/documents/'.$document->id) }}" method="post">
-                                    @csrf
-                                    @method('delete')
-                                    <button type="submit">delete</button>
-                                </form>
+                                @if(!$document->password || session('valid_response'))
+                                    <a href="{{ asset('storage/' . $document->file_path) }}">View</a>
+                                    <a href="{{ url('/documents/'.$document->id.'/edit') }}">Edit</a>
+                                    <form action="{{ url('/documents/'.$document->id) }}" method="post">
+                                        @csrf
+                                        @method('delete')
+                                        <button type="submit">Delete</button>
+                                    </form>
+                                @else
+                                    <form action="{{ route('documents.password', ['document' => $document]) }}" method="post">
+                                        @csrf
+                                        @method('GET')
+                                        Password: <input type="password" name="password" id="" class="form-control" value=""><br>
+                                        @error('password') <span class="text-danger">{{ $message }}</span><br>@enderror
+                                        <button type="submit" class="btn btn-success btn-lg">Confirmar password</button>
+                                    </form>
+                                @endif
                             </td>
                         </tr>
                     @endforeach
