@@ -115,6 +115,8 @@ class DocumentController extends Controller
 
         DocumentService::destroy_file($document);
 
+        Document::destroy($document->id);
+
         return redirect()
             ->route('documents.index');
     }
@@ -180,11 +182,13 @@ class DocumentController extends Controller
     public function password(Request $request, Document $document) {
 
         $userInputPassword = $request['password'];
+
         if (password_verify($userInputPassword, $document->password)) {
             session()->flash('valid_response' . $document->id, true);
         } else {
             session()->flash('invalid_response' . $document->id, false);
         }
+
         return redirect()->route('documents.index');
     }
 

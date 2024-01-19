@@ -125,6 +125,10 @@
       <excludeFolder url="file://$MODULE_DIR$/PW-projeto/vendor/webmozart/assert" />
       <excludeFolder url="file://$MODULE_DIR$/PW-projeto/vendor/barryvdh/laravel-debugbar" />
       <excludeFolder url="file://$MODULE_DIR$/PW-projeto/vendor/maximebf/debugbar" />
+      <excludeFolder url="file://$MODULE_DIR$/PW-projeto/vendor/livewire/livewire" />
+      <excludeFolder url="file://$MODULE_DIR$/PW-projeto/vendor/symfony/http-client" />
+      <excludeFolder url="file://$MODULE_DIR$/PW-projeto/vendor/symfony/http-client-contracts" />
+      <excludeFolder url="file://$MODULE_DIR$/PW-projeto/vendor/symfony/mailgun-mailer" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

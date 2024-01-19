@@ -1,43 +1,57 @@
 @extends('layouts.autenticado')
 
 @section('main-content')
-    <form method="post" action="{{ route('documents.upload') }}" enctype="multipart/form-data">
-        @method('GET')
-        @csrf
-        <label for="document">Choose Document:</label>
-        <input type="file" name="document" id="document" required>
-        <br>
-        <label for="password_sim">
-            <input type="radio" name="password" id="password_sim" value="sim" onclick="showPassword()" checked> Sim
-        </label>
+    <div class="container mt-5">
+        <h1>Upload New Document</h1>
 
-        <label for="password_nao">
-            <input type="radio" name="password" id="password_nao" value="nao" onclick="hidePassword()"> Não
-        </label>
+        <form method="post" action="{{ route('documents.upload') }}" enctype="multipart/form-data">
+            @method('GET')
+            @csrf
 
-        <label for="password" id="passwordLabel">
-            <input type="password" name="password_fill" id="password">
-        </label>
+            <div class="form-group">
+                <label for="document">Choose Document:</label>
+                <input type="file" name="document" id="document" class="form-control-file" required>
+            </div>
 
-        <p>Select Metadata Types:</p>
+            <div class="form-check">
+                <input type="radio" name="password" id="password_sim" value="sim" class="form-check-input" onclick="showPassword()" checked>
+                <label for="password_sim" class="form-check-label">Sim</label>
+            </div>
 
-        @foreach (\App\Services\DocumentService::getMetadata() as $metadata)
-            <label>
-                <input type="checkbox" name="metadata_types[]" value="{{ $metadata->id }}">
-                {{ $metadata->value }}
-            </label><br>
-        @endforeach
+            <div class="form-check">
+                <input type="radio" name="password" id="password_nao" value="nao" class="form-check-input" onclick="hidePassword()">
+                <label for="password_nao" class="form-check-label">Não</label>
+            </div>
 
-        <button type="submit">Upload Document</button>
-    </form>
+            <div class="form-group" id="passwordLabel" style="display: none;">
+                <label for="password">Password:</label>
+                <input type="password" name="password_fill" id="password" class="form-control">
+            </div>
+
+            <p>Select Metadata Types:</p>
+
+            @foreach (\App\Services\DocumentService::getMetadata() as $metadata)
+                <div class="form-check">
+                    <input type="checkbox" name="metadata_types[]" value="{{ $metadata->id }}" class="form-check-input">
+                    <label class="form-check-label">{{ $metadata->value }}</label>
+                </div>
+            @endforeach
+
+            <button type="submit" class="btn btn-success mt-3">Upload Document</button>
+        </form>
+
+        <div class="mt-3">
+            <a href="{{ url('/documents') }}" class="btn btn-secondary">Back</a>
+        </div>
+    </div>
 @endsection
 
 <script>
     function showPassword() {
-        document.getElementById('password').style.display = 'block';
+        document.getElementById('passwordLabel').style.display = 'block';
     }
 
     function hidePassword() {
-        document.getElementById('password').style.display = 'none';
+        document.getElementById('passwordLabel').style.display = 'none';
     }
 </script>

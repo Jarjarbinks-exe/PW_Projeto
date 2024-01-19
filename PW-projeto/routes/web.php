@@ -37,8 +37,10 @@ Route::middleware('auth')->group(function () {
     ->except(['index']);
     Route::get('users', \App\Livewire\Users\UserIndexLivewire::class)
         ->name('users.index');
-
-    Route::resource('documents', DocumentController::class);
+    Route::resource('documents', \App\Http\Controllers\DocumentController::class)
+        ->except(['index']);
+    Route::get('documents', \App\Livewire\Documents\DocumentIndexLivewire::class)
+        ->name('documents.index');
     Route::delete('/users/{user}/edit/{permission}', [UserController::class, 'destroyPermission'])->name('users.destroyPermission');
     Route::get('/users/{user}/edit/{permission}', [UserController::class, 'createPermission'])->name('users.createPermission');
     Route::get('/users/{user}/edit/department/{department}', [UserController::class, 'createDepartment'])->name('users.createDepartment');

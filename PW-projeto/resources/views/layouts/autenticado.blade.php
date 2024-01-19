@@ -12,10 +12,10 @@
     <meta name="description"
           content="Ample Admin Lite is powerful and clean admin dashboard template, inpired from Bootstrap Framework">
     <meta name="robots" content="noindex,nofollow">
-    <title>Ample Admin Lite Template by WrapPixel</title>
+    <title>GERACOR 2024</title>
     <link rel="canonical" href="{{asset('https://www.wrappixel.com/templates/ample-admin-lite/')}}" />
     <!-- Favicon icon -->
-    <link rel="icon" type="image/png" sizes="16x16" href="{{asset('dashboard_template/plugins/images/favicon.png')}}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{asset('dashboard_template/plugins/images/logo-icon.png')}}">
     <!-- Custom CSS -->
     <link href="{{asset('dashboard_template/plugins/bower_components/chartist/dist/chartist.min.css')}}" rel="stylesheet">
     <link rel="stylesheet" href="{{asset('dashboard_template/plugins/bower_components/chartist-plugin-tooltips/dist/chartist-plugin-tooltip.css')}}">
@@ -50,8 +50,8 @@
             <!-- End Container fluid  -->
             <!-- footer -->
             <!-- ============================================================== -->
-            <footer class="footer text-center"> 2021 © Ample Admin brought to you by <a
-                    href="https://www.wrappixel.com/">wrappixel.com</a>
+            <footer class="footer text-center"> 2024 - Trabalho Programação Web / Engenharia Software disponível em <a
+                    href="https://github.com/Jarjarbinks-exe/PW_Projeto">github.com</a>
             </footer>
             <!-- ============================================================== -->
             <!-- End footer -->

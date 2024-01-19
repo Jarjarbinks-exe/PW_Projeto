@@ -3,70 +3,73 @@
 
 namespace app\Livewire\Documents;
 
-use App\Models\User;
-use App\Services\UserService;
+use App\Models\Document;
+use App\Services\DocumentService;
 use Illuminate\Database\Eloquent\Builder;
 use Livewire\Component;
 
 class DocumentIndexLivewire extends Component
 {
-    public $department = '';
+    public $metadata = '';
+    public $category = '';
     public $search = '';
 
-    public $userId = '';
+    public $documentId = '';
     public $confirmed = false;
 
-    public $selectedUsers = [];
+    public $selectedDocuments = [];
 
 
     public function render()
     {
-        $users = User::query();
+        $documents = Document::query();
 
-        if ($this->department != '') {
-            $users->whereHas('departments', function ($query) {
-                $query->where('department_id', $this->department);
+
+
+        if ($this->metadata != '') {
+            $documents->whereHas('metadata', function ($query) {
+                $query->where('metadata_id', $this->metadata);
             });
         }
 
-        if ($this->search != '') {
-            $users->where(function (Builder $query) {
-                $query->where('username', 'like', '%' . $this->search . '%');
+        if ($this->category != '') {
+            $documents->whereHas('categories', function ($query) {
+                $query->where('category_id', $this->category);
             });
         }
 
-        $users = $users->get();
+        $documents = $documents->get();
 
         return view(
-            'livewire.users.user-index-livewire',
+            'livewire.documents.document-index-livewire',
             [
-                'users' => $users
+                'documents' => $documents
             ]
         )->extends('layouts.autenticado')->section('main-content');
     }
 
-    function deleteEmployee(int $id)
+    function deleteDocument(int $id)
     {
-        if ($this->employeeId == $id) {
-            $service = new UserService();
-            $service->deleteEmployee(User::find($id));
-            $this->userId = '';
+        if ($this->documentId == $id) {
+            $service = new DocumentService();
+            $service->deleteDocument(Document::find($id));
+            $this->documentId = '';
 
         } else {
-            $this->userId = $id;
+            $this->documentId = $id;
         }
     }
 
     public function deleteSelected()
     {
-        $uuids = array_keys(collect($this->selectedEmployees)
+        $uuids = array_keys(collect($this->selectedDocuments)
             ->filter(function ($element, $uuid) {
                 return $element == true;
             })
             ->toArray());
 
 
-        User::whereIn('uuid', $uuids,)
+        Document::whereIn('uuid', $uuids,)
             ->delete();
 
     }

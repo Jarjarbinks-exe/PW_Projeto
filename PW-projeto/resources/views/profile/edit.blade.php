@@ -1,4 +1,3 @@
-
 @extends('layouts.autenticado')
 
 <x-slot name="header">
@@ -10,31 +9,26 @@
 @section('main-content')
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            <div class="bg-white dark:bg-gray-800 shadow sm:rounded-lg flex justify-center items-center">
-                <div class="p-6">
-                    <div>
-                        @include('profile.partials.update-profile-information-form')
-                    </div>
+            <div class="card">
+                <div class="card-body">
+                    <h3 class="card-title">Update Profile Information</h3>
+                    @include('profile.partials.update-profile-information-form')
                 </div>
             </div>
 
-            <div class="bg-white dark:bg-gray-800 shadow sm:rounded-lg flex justify-center items-center">
-                <div class="p-6">
-                    <div>
-                        @include('profile.partials.update-password-form')
-                    </div>
+            <div class="card">
+                <div class="card-body">
+                    <h3 class="card-title">Update Password</h3>
+                    @include('profile.partials.update-password-form')
                 </div>
             </div>
 
-            <div class="bg-white dark:bg-gray-800 shadow sm:rounded-lg flex justify-center items-center">
-                <div class="p-6">
-                    <div>
-                        @include('profile.partials.delete-user-form')
-                    </div>
+            <div class="card">
+                <div class="card-body">
+                    <h3 class="card-title">Delete User</h3>
+                    @include('profile.partials.delete-user-form')
                 </div>
             </div>
         </div>
     </div>
 @endsection
-
-
