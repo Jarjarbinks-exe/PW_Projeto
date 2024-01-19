@@ -43,7 +43,7 @@ class UserController extends Controller
     public function store(CreateUserRequest $request)
     {
 
-        $userDTO = UserDTO(
+        $userDTO = new UserDTO(
             $request['username'],
             $request['password'],
             $request['email'],
@@ -51,7 +51,7 @@ class UserController extends Controller
 
         $user = User::create($userDTO->toArray());
 
-        return redirect()->route('users', ['user' => $user]);
+        return redirect()->route('users.show', ['user' => $user]);
     }
 
     public function edit(User $user)

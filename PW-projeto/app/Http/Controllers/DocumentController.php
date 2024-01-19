@@ -68,17 +68,8 @@ class DocumentController extends Controller
         $documentDTO = new DocumentDTO(Auth::id(), $request->file('file_path'));
         $document = Document::create($documentDTO->toArray());
 
-        // Criação de um novo documento
-        //$document = Document::create($request->all());
-
         // Guarda a criação do documento no histórico de revisões
-        History::create([
-            'created_at' => now(),
-            'updated_at' => now(),
-            'owner' => Auth::user()->username,
-            'type' => 'Deleted',
-            'document_id' => $document->id,
-        ]);
+        DocumentService::createHistoryCreated($document);
 
     }
 
@@ -96,17 +87,8 @@ class DocumentController extends Controller
 
         $document->update($documentDTO->toArray());
 
-        // Atualização do documento
-        //$document->update($request->all());
-
         // Guarda a alteração no histórico de revisões
-        History::create([
-            'created_at' => now(),
-            'updated_at' => now(),
-            'owner' => Auth::user()->username,
-            'type' => 'Deleted',
-            'document_id' => $document->id
-        ]);
+        DocumentService::createHistoryModified($document);
 
         return redirect()
             ->route('documents.show', ['document' => $document]);
@@ -123,18 +105,12 @@ class DocumentController extends Controller
         );
     }
 
-    public function destroy(Document $document, DocumentService $service)
+    public function destroy(Document $document)
     {
         // Guarda a eliminação do documento no histórico de revisões
-        History::create([
-            'created_at' => now(),
-            'updated_at' => now(),
-            'owner' => Auth::user()->username,
-            'type' => 'Deleted',
-            'document_id' => $document->id,
-        ]);
+        DocumentService::createHistoryDeleted($document);
 
-        $service->destroy_file($document);
+        DocumentService::destroy_file($document);
 
         // Apaga mesmo o documento
         Document::destroy($document->id);
@@ -157,34 +133,40 @@ class DocumentController extends Controller
 
     public function createMetadata(Document $document, Metadata $metadata) {
         $document->metadata()->attach($metadata->id);
+        DocumentService::createHistoryModified($document);
         return redirect()
             ->route('documents.edit', compact('document'));
     }
 
     public function createCategory(Document $document, Category $category) {
         $document->categories()->attach($category->id);
+        DocumentService::createHistoryModified($document);
         return redirect()
             ->route('documents.edit', compact('document'));
     }
     public function removeMetadata(Document $document, Metadata $metadata) {
         $document->metadata()->detach($metadata->id);
+        DocumentService::createHistoryModified($document);
         return redirect()
             ->route('documents.edit', compact('document'));
     }
 
     public function removeCategory(Document $document, Category $category) {
         $document->categories()->detach($category->id);
+        DocumentService::createHistoryModified($document);
         return redirect()
             ->route('documents.edit', compact('document'));
     }
     public function createPermission(Document $document, Permissions $permission) {
         $document->permissions()->attach($permission->id);
+        DocumentService::createHistoryModified($document);
         return redirect()
             ->route('documents.edit', compact('document'));
     }
 
     public function removePermission(Document $document, Permissions $permission) {
         $document->permissions()->detach($permission->id);
+        DocumentService::createHistoryModified($document);
         return redirect()
             ->route('documents.edit', compact('document'));
     }
