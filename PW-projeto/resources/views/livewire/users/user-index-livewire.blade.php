@@ -2,13 +2,13 @@
     <div class="row">
         <div class="col-md-6">
             <div class="form-group">
-                <label for="search" class="lead">Filtro</label>
+                <label for="search" class="lead">Filter</label>
                 <input type="text" wire:model.live="search" class="form-control" id="search">
             </div>
         </div>
         <div class="col-md-4">
             <div class="form-group">
-                <label for="department" class="lead">Departamento</label>
+                <label for="department" class="lead">Departament</label>
                 <select wire:model.live="department" class="form-control" name="department" id="department">
                     <option value=""></option>
                     <option value="1">Contabilidade</option>
@@ -34,7 +34,7 @@
                     <tr>
                         <td colspan="3" class="text-right">
                             <a href="{{ route('users.create') }}" class="btn btn-primary">
-                                <i class="fa fa-plus fa-fw mr-2"></i>Adicionar Utilizador
+                                <i class="fa fa-plus fa-fw mr-2"></i>Add User
                             </a>
                         </td>
                     </tr>

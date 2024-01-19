@@ -115,6 +115,8 @@ class DocumentController extends Controller
 
         DocumentService::destroy_file($document);
 
+        Document::destroy($document->id);
+
         return redirect()
             ->route('documents.index');
     }

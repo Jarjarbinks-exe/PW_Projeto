@@ -48,8 +48,8 @@
             <!-- End Container fluid  -->
             <!-- footer -->
             <!-- ============================================================== -->
-            <footer class="footer text-center"> 2021 © Ample Admin brought to you by <a
-                    href="https://www.wrappixel.com/">wrappixel.com</a>
+            <footer class="footer text-center"> 2024 - Trabalho Programação Web / Engenharia Software disponível em <a
+                    href="https://github.com/Jarjarbinks-exe/PW_Projeto">github.com</a>
             </footer>
             <!-- ============================================================== -->
             <!-- End footer -->

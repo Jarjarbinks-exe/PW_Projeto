@@ -8,13 +8,14 @@
                 <!-- Logo icon -->
                 <b class="logo-icon">
                     <!-- Dark Logo icon -->
-                    <img src="{{asset('dashboard_template/plugins/images/logo-icon.png')}}" alt="homepage" />
+                    <img src="{{asset('dashboard_template/plugins/images/logo-icon.png')}}" alt="homepage" class="img-fluid" style="max-width: 50px; height: auto;" />
                 </b>
+
                 <!--End Logo icon -->
                 <!-- Logo text -->
                 <span class="logo-text">
                             <!-- dark Logo text -->
-                            <img src="{{asset('dashboard_template/plugins/images/logo-text.png')}}" alt="homepage" />
+                            <img src="{{asset('dashboard_template/plugins/images/logo-text.png')}}" alt="homepage" class="img-fluid" style="max-width: 150px; height: auto;" />
                         </span>
             </a>
             <!-- ============================================================== -->
@@ -37,35 +38,26 @@
             <ul class="navbar-nav ms-auto d-flex align-items-center">
 
                 <!-- ============================================================== -->
-                <!-- Search -->
-                <!-- ============================================================== -->
-                <li class=" in">
-                    <form role="search" class="app-search d-none d-md-block me-3">
-                        <input type="text" placeholder="Search..." class="form-control mt-0">
-                        <a href="" class="active">
-                            <i class="fa fa-search"></i>
-                        </a>
-                    </form>
-                </li>
-                <!-- ============================================================== -->
                 <!-- User profile and search -->
                 <!-- ============================================================== -->
                 <li>
-                    <a class="profile-pic" href="{{route('profile.edit')}}">
-                        <img src="{{asset('dashboard_template/plugins/images/users/varun.jpg')}}" alt="user-img" width="36"
-                             class="img-circle"><span class="text-white font-medium">Steave</span></a>
+                    <a class="profile-pic" href="{{ route('profile.edit') }}">
+                        <img src="{{ asset('dashboard_template/plugins/images/users/1_v2.jpg') }}" alt="user-img" width="36" class="img-circle">
+                        <span class="text-white font-medium">{{ auth()->user()->username }}</span>
+                    </a>
                 </li>
-                <li class=" in">
-                    <form method="POST" action="{{ route('logout') }}">
-                        @csrf
 
-                        <x-dropdown-link :href="route('logout')"
-                                         onclick="event.preventDefault();
-                                                this.closest('form').submit();">
-                            {{ __('Log Out') }}
-                        </x-dropdown-link>
+                <li class="in">
+                    <form method="POST" action="{{ route('logout') }}" class="d-inline">
+                        @csrf
+                        <button type="submit" class="btn text-white">
+                            <i class="fas fa-power-off"></i> {{ __('Log Out') }}
+                        </button>
                     </form>
                 </li>
+
+
+
                 <!-- ============================================================== -->
                 <!-- User profile and search -->
                 <!-- ============================================================== -->

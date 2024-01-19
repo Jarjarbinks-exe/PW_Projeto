@@ -27,5 +27,8 @@
                 </tbody>
             </table>
         </div>
+        <div class="mt-3">
+            <a href="{{ url('/documents') }}" class="btn btn-secondary">Back</a>
+        </div>
     </div>
 @endsection

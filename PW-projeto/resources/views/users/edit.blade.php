@@ -145,5 +145,8 @@
                 <p>No additional departments available to add.</p>
             @endif
         </div>
+        <div class="mt-3">
+            <a href="{{ url('/users') }}" class="btn btn-secondary">Back</a>
+        </div>
     </div>
 @endsection
