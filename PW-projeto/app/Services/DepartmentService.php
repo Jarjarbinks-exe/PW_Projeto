@@ -12,5 +12,8 @@ class DepartmentService
         return Department::all()->diff($user->departments);
     }
 
+    public static function getUsersinDepartments() {
+        return Department::all()->join(User::all());
+    }
 
 }

@@ -20,8 +20,10 @@
                             <td>{{ $document->created_at }}</td>
                             <td>
                                 <a href="{{ url('/documents/'.$document->id.'/history') }}">details</a>
-                                @if(!$document->password || session('valid_response'))
-                                    <a href="{{ asset('storage/' . $document->file_path) }}">View</a>
+                                @if(!$document->password || session('valid_response' . $document->id))
+                                    @if($document->file_path)
+                                        <a href="{{ asset('storage/' . $document->file_path) }}">View</a>
+                                    @endif
                                     <a href="{{ url('/documents/'.$document->id.'/edit') }}">Edit</a>
                                     <form action="{{ url('/documents/'.$document->id) }}" method="post">
                                         @csrf

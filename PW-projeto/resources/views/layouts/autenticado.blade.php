@@ -21,6 +21,8 @@
     <link rel="stylesheet" href="{{asset('dashboard_template/plugins/bower_components/chartist-plugin-tooltips/dist/chartist-plugin-tooltip.css')}}">
     <!-- Custom CSS -->
     <link href="{{asset('dashboard_template/css/style.min.css')}}" rel="stylesheet">
+    <script src={{asset("https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js")}} charset="utf-8"></script>
+    <script src={{asset("https://cdnjs.cloudflare.com/ajax/libs/echarts/4.0.2/echarts-en.min.js")}} charset=utf-8></script>
     <livewire:styles />
 </head>
 
@@ -76,7 +78,9 @@
     <script src={{asset("dashboard_template/plugins/bower_components/chartist/dist/chartist.min.js")}}></script>
     <script src={{asset("dashboard_template/plugins/bower_components/chartist-plugin-tooltips/dist/chartist-plugin-tooltip.min.js")}}></script>
     <script src={{asset("dashboard_template/js/pages/dashboards/dashboard1.js")}}></script>
+
     <livewire:scripts />
+    @yield('javascript')
 
 </body>
 

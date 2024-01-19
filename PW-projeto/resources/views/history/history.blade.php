@@ -13,9 +13,9 @@
         <tbody>
         @foreach($history as $entry)
             <tr>
-                <td>{{ $entry->type }}</td>
-                <td>{{ date_format($entry->created_at, 'Y-m-d') }}</td>
-                <td>{{ $entry->owner }}</td>
+                <td>{{ $entry->action }}</td>
+                <td>{{ $entry->created_at }}</td>
+                <td>{{ $entry->user_name }}</td>
             </tr>
         @endforeach
         </tbody>

@@ -1,4 +1,5 @@
 import './bootstrap';
+import './mychart.js';
 
 /*
 Template Name: Admin Pro Admin
