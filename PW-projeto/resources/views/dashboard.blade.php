@@ -25,7 +25,7 @@
                             <h1>{{ $data["chartAdmin3"]->container() }}</h1>
 
                             <h1> {{$data["chartAdmin4"]->container()}}</h1>
-
+                            <h3> Documentos por Categorias </h3>
 
 
                         </div>

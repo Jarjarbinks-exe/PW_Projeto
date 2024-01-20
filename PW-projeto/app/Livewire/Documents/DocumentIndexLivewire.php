@@ -6,17 +6,19 @@ namespace app\Livewire\Documents;
 use App\Models\Document;
 use App\Services\DocumentService;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Livewire\Component;
 
 class DocumentIndexLivewire extends Component
 {
+    use AuthorizesRequests;
+
     public $metadata = '';
     public $category = '';
     public $search = '';
-
     public $documentId = '';
     public $confirmed = false;
-
+    public $isPageLoaded = false;
     public $selectedDocuments = [];
 
 
@@ -60,17 +62,5 @@ class DocumentIndexLivewire extends Component
         }
     }
 
-    public function deleteSelected()
-    {
-        $uuids = array_keys(collect($this->selectedDocuments)
-            ->filter(function ($element, $uuid) {
-                return $element == true;
-            })
-            ->toArray());
 
-
-        Document::whereIn('uuid', $uuids,)
-            ->delete();
-
-    }
 }

@@ -3,6 +3,7 @@
 use App\Http\Controllers\DocumentController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserController;
+use App\Livewire\Documents\DocumentIndexLivewire;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -39,7 +40,7 @@ Route::middleware('auth')->group(function () {
         ->name('users.index');
     Route::resource('documents', \App\Http\Controllers\DocumentController::class)
         ->except(['index']);
-    Route::get('documents', \App\Livewire\Documents\DocumentIndexLivewire::class)
+    Route::get('/documents', \App\Livewire\Documents\DocumentIndexLivewire::class)
         ->name('documents.index');
     Route::delete('/users/{user}/edit/{permission}', [UserController::class, 'destroyPermission'])->name('users.destroyPermission');
     Route::get('/users/{user}/edit/{permission}', [UserController::class, 'createPermission'])->name('users.createPermission');
