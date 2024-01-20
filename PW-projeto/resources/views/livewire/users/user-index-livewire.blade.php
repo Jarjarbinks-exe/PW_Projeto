@@ -45,12 +45,17 @@
                         <td>{{ $user->username }}</td>
                         <td>{{ $user->email }}</td>
                         <td>
+                            @can('view', $user)
                             <a href="{{ url('/users/'.$user->id) }}" class="btn btn-info">
                                 <i class="fa fa-info-circle fa-fw mr-2"></i>Details
                             </a>
+                            @endcan
+                            @can('edit', $user)
                             <a href="{{ url('/users/'.$user->id.'/edit') }}" class="btn btn-warning">
                                 <i class="fa fa-edit fa-fw mr-2"></i>Edit
                             </a>
+                            @endcan
+                            @can('delete', $user)
                             <form action="{{ url('/users/'.$user->id) }}" method="post" style="display: inline;">
                                 @csrf
                                 @method('DELETE')
@@ -58,6 +63,7 @@
                                     <i class="fa fa-trash fa-fw mr-2"></i>Delete
                                 </button>
                             </form>
+                            @endcan
                         </td>
                     </tr>
                 @endforeach
